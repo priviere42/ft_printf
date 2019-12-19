@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/18 13:49:13 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/12/19 14:21:03 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,42 +16,43 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
+#include "libft.h"
 
 /*
-Ecrire au fur et a mesur le texte puis les flags%_ puis text puis flags%_ ...
+Ecrire au fur et a mesure le texte puis les flags%_ puis text puis flags%_ ...
 Traiter le %
 					: % : pour afficher un % si precede %
 
 Recuperer les flags :
-					: 0 : Suivi de la width : nombre en str donne le minimum de CHARACTERE
+					: 0 : Suivi de la width : nombre en str donne le minimum de CARACTERES
 						  à afficher. Si precision est donnée avec d, i, u, o, x, X le flag est ignoré
 						  printf("%00d\n", 0);-> outputs '0'
 					: - : Aligne a gauche dans la width
 						  Prioritaire sur le 0 si les deux flags sont présents
 
 Recuperer la width :
-					: entier decimal : (si negatif passe en positif et met le flag a '-') nombre de characteres a afficher
+					: entier decimal : (si negatif passe en positif et met le flag a '-') nombre de caracteres a afficher
 						  ajoute des ' ' a gauche ou droit si '-' si trop grand
 						  ne tronque pas les nombres originaux
 					: * : largeur de champs ou precision ou les deux indiqué par *
 
 recuperer la precision :
-					: . : Suivi d'un nombre en str (ne peux pas etre negatif) donne le nombre minimum de CHIFFRES
+					: . : Suivi d'un nombre en str (ne peut pas etre negatif) donne le nombre minimum de CHIFFRES
 						  a afficher pour d, i, o, u, x, X (si pas de chiffre precision a 0)
 						  nombre de char max a afficher pour s 
 						  printf("%.0d", 0);  -> no output
 						  printf("%.0d", 10); -> outputs 10
 					: * : largeur de champs ou precision ou les deux indiqué par *
-					
+
 recuperer les types de conversion:
 
-	TYPE LETTRES (Precision non specifié : Minimum de nombres qui doivent apparaitre)
+	TYPE LETTRES (Precision non specifiée : Minimum de nombres qui doivent apparaitre)
 				 (Si precision donnée aligner sur la droite avec zero a gauche)
 					: c : Int argument convertis en (unsigned char)
 						  Si c = '\0' il faut forcer l'affichage du '\0'
 					: s : Chaine de charactere sans le \0 en (char *)
-					: p : Affiche en hexadecimal le pointeur void * caster en (unsigned long long)
-                    
+					: p : Affiche en hexadecimal le pointeur void * casté en (unsigned long long)
+ 
 	TYPE NOMBRES
 					: d : int signed decimal (int)
 					: i : integer signed decimal (int)
@@ -59,6 +60,14 @@ recuperer les types de conversion:
 					: x : unsigned hexadecimal (unsigned int)
 					: X : unsigned hexadecimal en MAJUSCULE (unsigned int)
 */
+
+typedef struct	s_params
+{
+	char	flag;
+	int		width;
+	int		precision;
+	char	type;
+}				t_params;
 
 void	ft_putnbr(int n)
 {
@@ -114,9 +123,12 @@ void my_printf_nbr(va_list my_list)
     ft_putnbr(num);
 }
 
+// traiter tout ce qu'il y a apres le %, jusqua un des flags s, c, d, p etc...
+
 void ft_printf(const char *src, ...)
 {
     va_list my_list;
+	t_params *par;
     int i;
 
     va_start(my_list, src);
@@ -125,21 +137,35 @@ void ft_printf(const char *src, ...)
     {
         if (src[i] != 0 && i != 0 && src[i - 1] == '%')
         {
+			if (src[i] == '0' || src[i] == '-')
+				par->flag = src[i];
+			if (src[i] > '0' && src[i] <= '9')
+				par->width = src[i];
+			if ((src[i] == '.' || src[i] == '*') && src[i + 1])
+					par->precision = ft_atoi(&src[i + 1]);
             if (src[i] == 'd')
                 my_printf_nbr(my_list);
             if (src[i] == 's')
                 my_printf_str(my_list);
             if (src[i] == 'c')
                 my_printf_char(my_list);
+            else if (src[i] == '%' || (src[i] != 's' && src[i] != 'c' && src[i] != 'd'))
+            {
+                write(1, &src[i], 1);
+                i++;
+            }
         }
         else if (src[i] != '%')
             write(1, &src[i], 1);
         i++;
     }
+	printf("par->precision : %d\n", par->precision);
 }
 
 int main(int ac, char **argv)
 {
-    ft_printf("%d", 145);
+    ft_printf("%.156161546s  %c%s salut %% %d salut %s\n", "nani", "chaine 1", 145, "chaine de caracteres");
+    printf("%12.1s %s%d salut %% %s salut \n", "fffff", "chaine 1", 145, "chaine de caracteres");
+	
     return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/06 17:26:37 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/06 17:27:38 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -65,7 +65,6 @@ typedef struct	s_params
 {
 	char	flag;
 	int		width;
-	int		width_dash;
 	int		precision;
 	char	type;
 }				t_params;
@@ -188,7 +187,6 @@ void ft_printf(const char *src, ...)
     {
 		par->precision = -1;
 		par->width = -1;	
-		par->width_dash = -1;
 		par->flag = 'a';
         if (src[i] != 0 && i != 0 && src[i - 1] == '%')
         {
@@ -222,7 +220,6 @@ void ft_printf(const char *src, ...)
 			}
 			if ((src[i] == '-') && src[i + 1] >= '0' && src[i + 1] <= '9')
 			{
-				par->width_dash = ft_atoi(&src[i + 1]);
 				par->width = ft_atoi(&src[i + 1]);
 				while (src[i + 1] && (src[i + 1] >= '0' && src[i + 1] <= '9'))
 					i++;

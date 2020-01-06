@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/06 16:05:23 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/06 16:53:37 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -31,8 +31,8 @@ done					: - : Aligne a gauche dans la width
 done						  Prioritaire sur le 0 si les deux flags sont présents
 
 Recuperer la width :
-					: entier decimal : (si negatif passe en positif et met le flag a '-') nombre de caracteres a afficher
-						  ajoute des ' ' a gauche ou droit si '-' si trop grand
+done					: entier decimal : (si negatif passe en positif et met le flag a '-') nombre de caracteres a afficher
+done						  ajoute des ' ' a gauche ou droite si '-' si trop grand
 						  ne tronque pas les nombres originaux
 					: * : largeur de champs ou precision ou les deux indiqué par *
 
@@ -109,13 +109,26 @@ int ft_strlen_prec(char *src, int precision)
 	return (i);
 }
 
-void my_printf_str(va_list my_list, int precision)
+void my_printf_str(va_list my_list, int precision, int width, char flag)
 {
     char *src = va_arg(my_list, char *);
+	int i;
+
+	i = ft_strlen(src);
+	while (flag != '-' && i < width)
+	{
+		write(1, " ", 1);
+		i++;
+	}
 	if (precision != -1)
     	write(1, src, ft_strlen_prec(src, precision));
 	else
-		write(1, src, strlen(src));
+		write(1, src, ft_strlen(src));
+	while (flag == '-' && i < width)
+	{
+		write(1, " ", 1);
+		i++;
+	}
 }
 
 void my_printf_char(va_list my_list)
@@ -169,13 +182,20 @@ void ft_printf(const char *src, ...)
     while (src[i])
     {
 		par->precision = -1;
+		par->width = -1;	
 		par->width_dash = -1;
+		par->flag = 'a';
         if (src[i] != 0 && i != 0 && src[i - 1] == '%')
         {
 			if (src[i] == '0' || src[i] == '-')
 				par->flag = src[i];
 			if (src[i] > '0' && src[i] <= '9')
-				par->width = src[i];
+			{
+				par->width = ft_atoi(&src[i]);
+				while (src[i + 1] && (src[i + 1] >= '0' && src[i + 1] <= '9'))
+					i++;
+				i++;
+			}
 			if ((src[i] == '.' || src[i] == '*') && src[i + 1])
 			{
 				par->precision = ft_atoi(&src[i + 1]);
@@ -193,6 +213,7 @@ void ft_printf(const char *src, ...)
 			if ((src[i] == '-') && src[i + 1] >= '0' && src[i + 1] <= '9')
 			{
 				par->width_dash = ft_atoi(&src[i + 1]);
+				par->width = ft_atoi(&src[i + 1]);
 				while (src[i + 1] && (src[i + 1] >= '0' && src[i + 1] <= '9'))
 					i++;
 				i++;
@@ -200,7 +221,7 @@ void ft_printf(const char *src, ...)
             if (src[i] == 'd')
                 my_printf_nbr(my_list, par->precision, par->width, par->width_dash);
             if (src[i] == 's')
-                my_printf_str(my_list, par->precision);
+                my_printf_str(my_list, par->precision, par->width, par->flag);
             if (src[i] == 'c')
                 my_printf_char(my_list);
             else if ((src[i] == '%' || (src[i] != 's' && src[i] != 'c' && src[i] != 'd')))
@@ -218,8 +239,8 @@ void ft_printf(const char *src, ...)
 
 int main(int ac, char **argv)
 {
-    ft_printf("Mon printf : %s %s %-0000010d hello %% %-10s salut \n", "nani", "chaine 1 ", 1450, "chaine de caracteres");
-       printf("The printf : %s %s %-0000010d hello %% %-10s salut \n", "nani", "chaine 1 ", 1450, "chaine de caracteres");
+    ft_printf("Mon printf : %s %s %-10d hello %% %12s salut \n", "nani", "chaine 1 ", 1450, "chaine de caracteres");
+       printf("The printf : %s %s %-10d hello %% %12s salut \n", "nani", "chaine 1 ", 1450, "chaine de caracteres");
 	
     return (0);
 }

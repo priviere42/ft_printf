@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/19 14:21:03 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/06 12:22:50 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -98,11 +98,23 @@ void	ft_putnbr(int n)
 	}
 }
 
-void my_printf_str(va_list my_list)
+int ft_strlen_prec(char *src, int precision)
+{
+	int i;
+
+	i = 0;
+	while (src[i] && i < precision)
+		i++;
+	return (i);
+}
+
+void my_printf_str(va_list my_list, int precision)
 {
     char *src = va_arg(my_list, char *);
-    
-    write(1, src, strlen(src));
+	if (precision != -1)
+    	write(1, src, ft_strlen_prec(src, precision));
+	else
+		write(1, src, strlen(src));
 }
 
 void my_printf_char(va_list my_list)
@@ -135,6 +147,7 @@ void ft_printf(const char *src, ...)
     i = 0;
     while (src[i])
     {
+		par->precision = -1;
         if (src[i] != 0 && i != 0 && src[i - 1] == '%')
         {
 			if (src[i] == '0' || src[i] == '-')
@@ -142,14 +155,19 @@ void ft_printf(const char *src, ...)
 			if (src[i] > '0' && src[i] <= '9')
 				par->width = src[i];
 			if ((src[i] == '.' || src[i] == '*') && src[i + 1])
-					par->precision = ft_atoi(&src[i + 1]);
+			{
+				par->precision = ft_atoi(&src[i + 1]);
+				while (src[i + 1] && (src[i + 1] >= '0' && src[i + 1] <= '9'))
+					i++;
+				i++;
+			}
             if (src[i] == 'd')
                 my_printf_nbr(my_list);
             if (src[i] == 's')
-                my_printf_str(my_list);
+                my_printf_str(my_list, par->precision);
             if (src[i] == 'c')
                 my_printf_char(my_list);
-            else if (src[i] == '%' || (src[i] != 's' && src[i] != 'c' && src[i] != 'd'))
+            else if ((src[i] == '%' || (src[i] != 's' && src[i] != 'c' && src[i] != 'd')))
             {
                 write(1, &src[i], 1);
                 i++;
@@ -164,8 +182,8 @@ void ft_printf(const char *src, ...)
 
 int main(int ac, char **argv)
 {
-    ft_printf("%.156161546s  %c%s salut %% %d salut %s\n", "nani", "chaine 1", 145, "chaine de caracteres");
-    printf("%12.1s %s%d salut %% %s salut \n", "fffff", "chaine 1", 145, "chaine de caracteres");
+    ft_printf("Mon printf : %.2s %s%d salut %% %.5s salut \n", "nani", "chaine 1 ", 145, "chaine de caracteres");
+    printf("Vrai printf : %.2s %s%d salut %% %.5s salut \n", "nani", "chaine 1 ", 145, "chaine de caracteres");
 	
     return (0);
 }

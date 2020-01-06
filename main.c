@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/06 16:53:37 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/06 17:26:37 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -142,7 +142,7 @@ void my_printf_char(va_list my_list)
     write(1, &c[0], 1);
 }
 
-void my_printf_nbr(va_list my_list, int precision, int width, int w_dash)
+void my_printf_nbr(va_list my_list, int precision, int width, char flag)
 {
     int num = va_arg(my_list, int);
 	int i;
@@ -155,14 +155,19 @@ void my_printf_nbr(va_list my_list, int precision, int width, int w_dash)
 		write (1, "0", 1);
 		i++;
 	}
-	while (precision == -1 && w_dash == -1 && i < width)
+	while (precision == -1 && flag == '0' && i < width)
 	{
 		write (1, "0", 1);
 		i++;
 	}
+	while (flag == 'a' && nbr_len < width)
+	{
+		write(1, " ", 1);
+		nbr_len++;
+	}
 	if (!(precision == 0 && num == 0))
     	ft_putnbr(num);
-	while (nbr_len < w_dash)
+	while (flag == '-' && nbr_len < width)
 	{
 		write(1, " ", 1);
 		nbr_len++;
@@ -188,7 +193,12 @@ void ft_printf(const char *src, ...)
         if (src[i] != 0 && i != 0 && src[i - 1] == '%')
         {
 			if (src[i] == '0' || src[i] == '-')
-				par->flag = src[i];
+			{
+				if (src[i] == '0' && src[i + 1] == '-')
+					par->flag = '-';
+				else
+					par->flag = src[i];
+			}
 			if (src[i] > '0' && src[i] <= '9')
 			{
 				par->width = ft_atoi(&src[i]);
@@ -219,7 +229,7 @@ void ft_printf(const char *src, ...)
 				i++;
 			}
             if (src[i] == 'd')
-                my_printf_nbr(my_list, par->precision, par->width, par->width_dash);
+                my_printf_nbr(my_list, par->precision, par->width, par->flag);
             if (src[i] == 's')
                 my_printf_str(my_list, par->precision, par->width, par->flag);
             if (src[i] == 'c')

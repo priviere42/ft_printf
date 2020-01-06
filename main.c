@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/06 12:22:50 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/06 14:33:05 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -128,11 +128,12 @@ void my_printf_char(va_list my_list)
     write(1, &c[0], 1);
 }
 
-void my_printf_nbr(va_list my_list)
+void my_printf_nbr(va_list my_list, int precision)
 {
     int num = va_arg(my_list, int);
 
-    ft_putnbr(num);
+	if (!(precision == 0 && num == 0))
+    	ft_putnbr(num);
 }
 
 // traiter tout ce qu'il y a apres le %, jusqua un des flags s, c, d, p etc...
@@ -162,7 +163,7 @@ void ft_printf(const char *src, ...)
 				i++;
 			}
             if (src[i] == 'd')
-                my_printf_nbr(my_list);
+                my_printf_nbr(my_list, par->precision);
             if (src[i] == 's')
                 my_printf_str(my_list, par->precision);
             if (src[i] == 'c')
@@ -170,20 +171,20 @@ void ft_printf(const char *src, ...)
             else if ((src[i] == '%' || (src[i] != 's' && src[i] != 'c' && src[i] != 'd')))
             {
                 write(1, &src[i], 1);
-                i++;
+				if (!(src[i] == '%'))
+                	i++;
             }
         }
         else if (src[i] != '%')
             write(1, &src[i], 1);
         i++;
     }
-	printf("par->precision : %d\n", par->precision);
 }
 
 int main(int ac, char **argv)
 {
-    ft_printf("Mon printf : %.2s %s%d salut %% %.5s salut \n", "nani", "chaine 1 ", 145, "chaine de caracteres");
-    printf("Vrai printf : %.2s %s%d salut %% %.5s salut \n", "nani", "chaine 1 ", 145, "chaine de caracteres");
+    ft_printf("Mon printf : %s %s %.1d hello %% %.5s salut \n", "nani", "chaine 1 ", 1450, "chaine de caracteres");
+    printf("The printf : %s %s %.1d hello %% %.5s salut \n", "nani", "chaine 1 ", 1450, "chaine de caracteres");
 	
     return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/08 17:47:06 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/08 19:11:39 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -60,53 +60,6 @@ recuperer les types de conversion:
 					: x : unsigned hexadecimal (unsigned int)
 					: X : unsigned hexadecimal en MAJUSCULE (unsigned int)
 */
-
-typedef struct	s_params
-{
-	char		flag;
-	int			width;
-	int			precision;
-	char		type;
-}				t_params;
-
-void	ft_putnbr(int n)
-{
-	int mod;
-	int div;
-
-	if (n == -2147483648)
-		write(1, "-2147483648", 11);
-	else
-	{
-		if (n < 0)
-		{
-			write(1, "-", 1);
-			n = n * -1;
-		}
-		if (n <= 9)
-		{
-			n = n + 48;
-			write(1, &n, 1);
-		}
-		else
-		{
-			div = n / 10;
-			mod = n % 10;
-			ft_putnbr(div);
-			ft_putnbr(mod);
-		}
-	}
-}
-
-int ft_strlen_prec(char *src, int precision)
-{
-	int i;
-
-	i = 0;
-	while (src[i] && i < precision)
-		i++;
-	return (i);
-}
 
 void my_printf_str(va_list my_list, int precision, int width, char flag)
 {
@@ -198,7 +151,6 @@ int	ft_check_flags(const char *src, int i, t_params *par)
 	return (i);
 }
 
-
 // traiter tout ce qu'il y a apres le %, jusqua un des flags s, c, d, p etc...
 void ft_printf(const char *src, ...)
 {
@@ -212,7 +164,7 @@ void ft_printf(const char *src, ...)
     {
 		par = malloc(sizeof(t_params) * 1);
 		par->precision = -1;
-		par->width = -1;	
+		par->width = -1;
 		par->flag = 'a';
         if (src[i] != 0 && i != 0 && src[i - 1] == '%')
         {
@@ -240,8 +192,8 @@ void ft_printf(const char *src, ...)
 
 int main(int ac, char **argv)
 {
-    ft_printf("Mon printf : %s %s %.10d hello %% %.12s salut \n", "nani", "chaine 1 ", 1450, "chaine de caracteres");
-       printf("The printf : %s %s %.10d hello %% %.12s salut \n", "nani", "chaine 1 ", 1450, "chaine de caracteres");
+    ft_printf("Mon printf : %s %s %.10d hello %% %.12s salut \n", "nani", "chaine 1 ", 14250, "chaine de caracteres");
+       printf("The printf : %s %s %.10d hello %% %.12s salut \n", "nani", "chaine 1 ", 14250, "chaine de caracteres");
 	
     return (0);
 }

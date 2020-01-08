@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/06 17:27:38 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/08 17:42:08 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -63,10 +63,10 @@ recuperer les types de conversion:
 
 typedef struct	s_params
 {
-	char	flag;
-	int		width;
-	int		precision;
-	char	type;
+	char		flag;
+	int			width;
+	int			precision;
+	char		type;
 }				t_params;
 
 void	ft_putnbr(int n)
@@ -149,6 +149,7 @@ void my_printf_nbr(va_list my_list, int precision, int width, char flag)
 
 	nbr_len = ft_strlen(ft_itoa(num));
 	i = nbr_len;
+//	printf("\nwidth dans printfnbr = %d, flag = %c, precision = %d", width, flag, precision);
 	while (precision > 0 && i < precision)
 	{
 		write (1, "0", 1);
@@ -173,8 +174,38 @@ void my_printf_nbr(va_list my_list, int precision, int width, char flag)
 	}
 }
 
-// traiter tout ce qu'il y a apres le %, jusqua un des flags s, c, d, p etc...
+int	ft_check_flags(const char *src, int i, t_params *par)
+{
+	if (src[i] == '0' || src[i] == '-')
+	{
+		par->flag = (src[i] == '0') && (src[i + 1] == '-') ? '-' : src[i];
+		if ((src[i] == '0') && (src[i + 1] == '-'))
+			i++;
+		i++;
+	}
+	if (src[i] > '0' && src[i] <= '9')
+		par->width = ft_atoi(&src[i]);
+	if ((src[i] == '.' || src[i] == '*') && src[i + 1])
+	{
+		par->precision = ft_atoi(&src[i + 1]);
+		i++;
+		while (src[i] && (src[i] >= '0' && src[i] <= '9'))
+			i++;
+	}
+	if ((par->flag != 'a') && src[i + 1] >= '0' && src[i + 1] <= '9')
+	{
+		par->width = ft_atoi(&src[i]);
+		i++;
+		while (src[i] && (src[i] >= '0' && src[i] <= '9'))
+			i++;
+	}
+//	i++;
+	//printf("par->width = %d,\n par->flag = %c,\n par->precision = %d\n", par->width, par->flag, par->precision);
+	return (i);
+}
 
+
+// traiter tout ce qu'il y a apres le %, jusqua un des flags s, c, d, p etc...
 void ft_printf(const char *src, ...)
 {
     va_list my_list;
@@ -185,46 +216,14 @@ void ft_printf(const char *src, ...)
     i = 0;
     while (src[i])
     {
+		par = malloc(sizeof(t_params) * 1);
 		par->precision = -1;
 		par->width = -1;	
 		par->flag = 'a';
         if (src[i] != 0 && i != 0 && src[i - 1] == '%')
         {
-			if (src[i] == '0' || src[i] == '-')
-			{
-				if (src[i] == '0' && src[i + 1] == '-')
-					par->flag = '-';
-				else
-					par->flag = src[i];
-			}
-			if (src[i] > '0' && src[i] <= '9')
-			{
-				par->width = ft_atoi(&src[i]);
-				while (src[i + 1] && (src[i + 1] >= '0' && src[i + 1] <= '9'))
-					i++;
-				i++;
-			}
-			if ((src[i] == '.' || src[i] == '*') && src[i + 1])
-			{
-				par->precision = ft_atoi(&src[i + 1]);
-				while (src[i + 1] && (src[i + 1] >= '0' && src[i + 1] <= '9'))
-					i++;
-				i++;
-			}
-			if ((src[i] == '0') && ((src[i + 1] >= '0' && src[i + 1] <= '9') || src[i + 1] == '-'))
-			{
-				par->width = ft_atoi(&src[i + 1]);
-				while (src[i + 1] && (src[i + 1] >= '0' && src[i + 1] <= '9'))
-					i++;
-				i++;
-			}
-			if ((src[i] == '-') && src[i + 1] >= '0' && src[i + 1] <= '9')
-			{
-				par->width = ft_atoi(&src[i + 1]);
-				while (src[i + 1] && (src[i + 1] >= '0' && src[i + 1] <= '9'))
-					i++;
-				i++;
-			}
+			i = ft_check_flags(src, i, par);
+	//		printf("\npar->width = %d, par->flag = %c, par->precision = %d, index = %d, src[i] = %c\n", par->width, par->flag, par->precision, i, src[i]);
             if (src[i] == 'd')
                 my_printf_nbr(my_list, par->precision, par->width, par->flag);
             if (src[i] == 's')
@@ -242,12 +241,13 @@ void ft_printf(const char *src, ...)
             write(1, &src[i], 1);
         i++;
     }
+	return ;
 }
 
 int main(int ac, char **argv)
 {
-    ft_printf("Mon printf : %s %s %-10d hello %% %12s salut \n", "nani", "chaine 1 ", 1450, "chaine de caracteres");
-       printf("The printf : %s %s %-10d hello %% %12s salut \n", "nani", "chaine 1 ", 1450, "chaine de caracteres");
+    ft_printf("Mon printf : %s %s %0-10d hello %% %.12s salut \n", "nani", "chaine 1 ", 1450, "chaine de caracteres");
+       printf("The printf : %s %s %0-10d hello %% %.12s salut \n", "nani", "chaine 1 ", 1450, "chaine de caracteres");
 	
     return (0);
 }

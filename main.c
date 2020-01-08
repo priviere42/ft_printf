@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/08 17:42:08 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/08 17:47:06 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -148,18 +148,12 @@ void my_printf_nbr(va_list my_list, int precision, int width, char flag)
 	int nbr_len;
 
 	nbr_len = ft_strlen(ft_itoa(num));
-	i = nbr_len;
+	i = nbr_len - 1;
 //	printf("\nwidth dans printfnbr = %d, flag = %c, precision = %d", width, flag, precision);
-	while (precision > 0 && i < precision)
-	{
+	while (precision > 0 && ++i < precision)
 		write (1, "0", 1);
-		i++;
-	}
-	while (precision == -1 && flag == '0' && i < width)
-	{
+	while (precision == -1 && flag == '0' && ++i < width)
 		write (1, "0", 1);
-		i++;
-	}
 	while (flag == 'a' && nbr_len < width)
 	{
 		write(1, " ", 1);
@@ -246,8 +240,8 @@ void ft_printf(const char *src, ...)
 
 int main(int ac, char **argv)
 {
-    ft_printf("Mon printf : %s %s %0-10d hello %% %.12s salut \n", "nani", "chaine 1 ", 1450, "chaine de caracteres");
-       printf("The printf : %s %s %0-10d hello %% %.12s salut \n", "nani", "chaine 1 ", 1450, "chaine de caracteres");
+    ft_printf("Mon printf : %s %s %.10d hello %% %.12s salut \n", "nani", "chaine 1 ", 1450, "chaine de caracteres");
+       printf("The printf : %s %s %.10d hello %% %.12s salut \n", "nani", "chaine 1 ", 1450, "chaine de caracteres");
 	
     return (0);
 }

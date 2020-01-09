@@ -100,7 +100,7 @@ void my_printf_nbr(va_list my_list, t_params *par)
 	int i;
 	int nbr_len;
 
-	nbr_len = ft_strlen(ft_itoa(num));
+	nbr_len = ft_strlen(ft_itoa_base(num, 10));
 	i = nbr_len - 1;
 //	printf("\nwidth dans printfnbr = %d, flag = %c, precision = %d", width, flag, precision);
 	while (par->precision > 0 && ++i < par->precision)

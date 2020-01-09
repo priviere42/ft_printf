@@ -32,6 +32,6 @@ int		ft_atoi(const char *str);
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *s1);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
-char	*ft_itoa(int n);
+char	*ft_itoa_base(int value, int base);
 
 #endif

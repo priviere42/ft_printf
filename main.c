@@ -61,22 +61,22 @@ recuperer les types de conversion:
 					: X : unsigned hexadecimal en MAJUSCULE (unsigned int)
 */
 
-void my_printf_str(va_list my_list, int precision, int width, char flag)
+void my_printf_str(va_list my_list, t_params *par)
 {
     char *src = va_arg(my_list, char *);
 	int i;
 
 	i = ft_strlen(src);
-	while (flag != '-' && i < width)
+	while (par->flag != '-' && i < par->width)
 	{
 		write(1, " ", 1);
 		i++;
 	}
-	if (precision != -1)
-    	write(1, src, ft_strlen_prec(src, precision));
+	if (par->precision != -1)
+    	write(1, src, ft_strlen_prec(src, par->precision));
 	else
 		write(1, src, ft_strlen(src));
-	while (flag == '-' && i < width)
+	while (par->flag == '-' && i < par->width)
 	{
 		write(1, " ", 1);
 		i++;
@@ -94,7 +94,7 @@ void my_printf_char(va_list my_list)
     write(1, &c[0], 1);
 }
 
-void my_printf_nbr(va_list my_list, int precision, int width, char flag)
+void my_printf_nbr(va_list my_list, t_params *par)
 {
     int num = va_arg(my_list, int);
 	int i;
@@ -103,18 +103,18 @@ void my_printf_nbr(va_list my_list, int precision, int width, char flag)
 	nbr_len = ft_strlen(ft_itoa(num));
 	i = nbr_len - 1;
 //	printf("\nwidth dans printfnbr = %d, flag = %c, precision = %d", width, flag, precision);
-	while (precision > 0 && ++i < precision)
+	while (par->precision > 0 && ++i < par->precision)
 		write (1, "0", 1);
-	while (precision == -1 && flag == '0' && ++i < width)
+	while (par->precision == -1 && par->flag == '0' && ++i < par->width)
 		write (1, "0", 1);
-	while (flag == 'a' && nbr_len < width)
+	while (par->flag == 'a' && nbr_len < par->width)
 	{
 		write(1, " ", 1);
 		nbr_len++;
 	}
-	if (!(precision == 0 && num == 0))
+	if (!(par->precision == 0 && num == 0))
     	ft_putnbr(num);
-	while (flag == '-' && nbr_len < width)
+	while (par->flag == '-' && nbr_len < par->width)
 	{
 		write(1, " ", 1);
 		nbr_len++;
@@ -171,9 +171,9 @@ void ft_printf(const char *src, ...)
 			i = ft_check_flags(src, i, par);
 	//		printf("\npar->width = %d, par->flag = %c, par->precision = %d, index = %d, src[i] = %c\n", par->width, par->flag, par->precision, i, src[i]);
             if (src[i] == 'd')
-                my_printf_nbr(my_list, par->precision, par->width, par->flag);
+                my_printf_nbr(my_list, par);
             if (src[i] == 's')
-                my_printf_str(my_list, par->precision, par->width, par->flag);
+                my_printf_str(my_list, par);
             if (src[i] == 'c')
                 my_printf_char(my_list);
             else if ((src[i] == '%' || (src[i] != 's' && src[i] != 'c' && src[i] != 'd')))

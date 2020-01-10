@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/10 17:31:21 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/10 17:34:14 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -169,7 +169,8 @@ int	ft_check_flags(va_list my_list, const char *src, int i, t_params *par)
 	if (src[i] >= '0' && src[i] <= '9')
 	{	
 		par->width = ft_atoi(&src[i]);
-		i = i + 2;
+		while (src[i] && (src[i] >= '0' && src[i] <= '9'))
+			i++;
 	}
 	i = ft_check_wildcard(my_list, src, i, par);
 	if ((src[i] == '.' && src[i + 1]))

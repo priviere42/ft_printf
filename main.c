@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/10 17:59:56 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/10 19:07:56 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -102,29 +102,34 @@ void my_printf_nbr(va_list my_list, t_params *par)
 
 	nbr_len = ft_strlen(ft_itoa_base(num, 10));
 	i = nbr_len - 1;
+	if (par->precision > 0 && par->width != -1)
+		par->flag = 'a';
 	printf("\nwidth dans printfnbr = %d, flag = %c, precision = %d\n", par->width, par->flag, par->precision);
-	if (par->precision > 0 && par->width > 0 && par->width > par->precision)
+	if (par->precision >= 0 && par->width > 0 && par->width > par->precision)
 	{
-		while (par->flag != '-' && nbr_len <= (par->width - par->precision))
+		while (par->flag != '-' && nbr_len < (par->width - par->precision))
 		{
 		//	write(1, "YOYO\n", 5);
 			write(1, " ", 1);
 			nbr_len++;
 		}
 	}
-	while (par->precision > 0 && ++i < par->precision)
+	else
+	{
+		while (par->flag == 'a' && nbr_len < par->width)
+		{
+		//	write(1, "YOYO\n", 5);
+			write(1, " ", 1);
+			nbr_len++;
+		}
+	}
+	while (par->precision > 0 && ++i < par->precision && par->flag != '-')
 		write (1, "0", 1);
 	while (par->precision == -1 && par->flag == '0' && ++i < par->width)
 		write (1, "0", 1);
-	// while (par->flag != '-' && nbr_len < par->width && (par->flag == '0' && par->precision <= 0))
-	// {
-	// //	write(1, "YOYO\n", 5);
-	// 	write(1, " ", 1);
-	// 	nbr_len++;
-	// }
 	if (!(par->precision == 0 && num == 0))
     	ft_putnbr(num);
-	while (par->flag == '-' && nbr_len < par->width && par->precision <= 0)
+	while (par->flag == '-' && nbr_len < par->width)
 	{
 		write(1, " ", 1);
 		nbr_len++;
@@ -150,7 +155,10 @@ int ft_check_wildcard(va_list my_list, const char *src, int i, t_params *par)
 	{
 		par->precision = va_arg(my_list, int);
 		if (par->precision < 0)
+		{
 			par->precision = -1 * par->precision;
+			par->flag = '-';
+		}
 		i = i + 2;
 	}
 	return (i);
@@ -177,11 +185,11 @@ int	ft_check_flags(va_list my_list, const char *src, int i, t_params *par)
 	i = ft_check_wildcard(my_list, src, i, par);
 	if ((src[i] == '.' && src[i + 1]))
 		par->precision = ft_atoi(&src[++i]);
-	if ((par->flag != 'a') && src[i + 1] >= '0' && src[i + 1] <= '9')
+	if ((par->flag != 'a') && src[i + 1] >= '0' && src[i + 1] <= '9' && par->precision == -1)
 		par->width = ft_atoi(&src[i++]);
 	while (src[i] && (src[i] >= '0' && src[i] <= '9'))
 		i++;
-//	printf("\npar->width = %d, par->flag = %c, par->precision = %d, index = %i\n", par->width, par->flag, par->precision, i);
+	printf("\npar->width = %d, par->flag = %c, par->precision = %d, index = %i\n", par->width, par->flag, par->precision, i);
 	return (i);
 }
 
@@ -234,8 +242,11 @@ void ft_printf(const char *src, ...)
 
 int main(int ac, char **argv)
 {
-    ft_printf("Mon printf : %s %.s %-23.*d hello %% %.12s salut \n", "nani", "chaine 1 ", 23, 1, "chaine de caracteres");
-       printf("The printf : %s %.s %-23.*d hello %% %.12s salut \n", "nani", "chaine 1 ", 23, 1, "chaine de caracteres");
+    ft_printf("Mon printf : %-2.30s\n", "salut");
+       printf("The printf : %-2.30s\n", "salut");
 	
     return (0);
 }
+
+
+// dans le cas ou on a un - devant l'attribut qui remplace *, 

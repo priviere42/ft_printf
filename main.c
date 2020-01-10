@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/10 17:34:14 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/10 17:59:56 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -124,7 +124,7 @@ void my_printf_nbr(va_list my_list, t_params *par)
 	// }
 	if (!(par->precision == 0 && num == 0))
     	ft_putnbr(num);
-	while (par->flag == '-' && nbr_len < par->width)
+	while (par->flag == '-' && nbr_len < par->width && par->precision <= 0)
 	{
 		write(1, " ", 1);
 		nbr_len++;
@@ -149,6 +149,8 @@ int ft_check_wildcard(va_list my_list, const char *src, int i, t_params *par)
 	if (src[i] == '.' && src[i + 1] == '*')
 	{
 		par->precision = va_arg(my_list, int);
+		if (par->precision < 0)
+			par->precision = -1 * par->precision;
 		i = i + 2;
 	}
 	return (i);
@@ -232,8 +234,8 @@ void ft_printf(const char *src, ...)
 
 int main(int ac, char **argv)
 {
-    ft_printf("Mon printf : %s %.s %000.*d hello %% %.12s salut \n", "nani", "chaine 1 ", 23, 1, "chaine de caracteres");
-       printf("The printf : %s %.s %000.*d hello %% %.12s salut \n", "nani", "chaine 1 ", 23, 1, "chaine de caracteres");
+    ft_printf("Mon printf : %s %.s %-23.*d hello %% %.12s salut \n", "nani", "chaine 1 ", 23, 1, "chaine de caracteres");
+       printf("The printf : %s %.s %-23.*d hello %% %.12s salut \n", "nani", "chaine 1 ", 23, 1, "chaine de caracteres");
 	
     return (0);
 }

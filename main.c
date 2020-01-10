@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/10 19:07:56 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/10 19:30:58 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -105,18 +105,18 @@ void my_printf_nbr(va_list my_list, t_params *par)
 	if (par->precision > 0 && par->width != -1)
 		par->flag = 'a';
 	printf("\nwidth dans printfnbr = %d, flag = %c, precision = %d\n", par->width, par->flag, par->precision);
-	if (par->precision >= 0 && par->width > 0 && par->width > par->precision)
+	// if (par->precision >= 0 && par->width > 0 && par->width > par->precision)
+	// {
+	// 	while (par->flag != '-' && nbr_len < (par->width - par->precision))
+	// 	{
+	// 	//	write(1, "YOYO\n", 5);
+	// 		write(1, " ", 1);
+	// 		nbr_len++;
+	// 	}
+	// }
+	// else
 	{
-		while (par->flag != '-' && nbr_len < (par->width - par->precision))
-		{
-		//	write(1, "YOYO\n", 5);
-			write(1, " ", 1);
-			nbr_len++;
-		}
-	}
-	else
-	{
-		while (par->flag == 'a' && nbr_len < par->width)
+		while (par->flag == 'a' && nbr_len < par->width && par->precision < par->width)
 		{
 		//	write(1, "YOYO\n", 5);
 			write(1, " ", 1);
@@ -157,7 +157,8 @@ int ft_check_wildcard(va_list my_list, const char *src, int i, t_params *par)
 		if (par->precision < 0)
 		{
 			par->precision = -1 * par->precision;
-			par->flag = '-';
+			if (par->width == -1)
+				par->flag = '-';
 		}
 		i = i + 2;
 	}
@@ -242,8 +243,8 @@ void ft_printf(const char *src, ...)
 
 int main(int ac, char **argv)
 {
-    ft_printf("Mon printf : %-2.30s\n", "salut");
-       printf("The printf : %-2.30s\n", "salut");
+    ft_printf("Mon printf : %10.*d\n", 3, 456789);
+       printf("The printf : %10.*d\n", 3, 456789);
 	
     return (0);
 }

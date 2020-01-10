@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/10 15:56:22 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/10 17:31:21 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -52,7 +52,7 @@ recuperer les types de conversion:
 						  Si c = '\0' il faut forcer l'affichage du '\0'
 					: s : Chaine de caractere sans le \0 en (char *)
 					: p : Affiche en hexadecimal le pointeur void * casté en (unsigned long long)
- 
+
 	TYPE NOMBRES
 					: d : int signed decimal (int)
 					: i : integer signed decimal (int)
@@ -102,16 +102,26 @@ void my_printf_nbr(va_list my_list, t_params *par)
 
 	nbr_len = ft_strlen(ft_itoa_base(num, 10));
 	i = nbr_len - 1;
-//	printf("\nwidth dans printfnbr = %d, flag = %c, precision = %d", width, flag, precision);
+	printf("\nwidth dans printfnbr = %d, flag = %c, precision = %d\n", par->width, par->flag, par->precision);
+	if (par->precision > 0 && par->width > 0 && par->width > par->precision)
+	{
+		while (par->flag != '-' && nbr_len <= (par->width - par->precision))
+		{
+		//	write(1, "YOYO\n", 5);
+			write(1, " ", 1);
+			nbr_len++;
+		}
+	}
 	while (par->precision > 0 && ++i < par->precision)
 		write (1, "0", 1);
 	while (par->precision == -1 && par->flag == '0' && ++i < par->width)
 		write (1, "0", 1);
-	while (par->flag == 'a' && nbr_len < par->width)
-	{
-		write(1, " ", 1);
-		nbr_len++;
-	}
+	// while (par->flag != '-' && nbr_len < par->width && (par->flag == '0' && par->precision <= 0))
+	// {
+	// //	write(1, "YOYO\n", 5);
+	// 	write(1, " ", 1);
+	// 	nbr_len++;
+	// }
 	if (!(par->precision == 0 && num == 0))
     	ft_putnbr(num);
 	while (par->flag == '-' && nbr_len < par->width)
@@ -151,21 +161,34 @@ int	ft_check_flags(va_list my_list, const char *src, int i, t_params *par)
 	if (src[i] == '0' || src[i] == '-')
 	{
 		par->flag = (src[i] == '0') && (src[i + 1] == '-') ? '-' : src[i];
-		if (((src[i] == '0') && (src[i + 1] == '-')) || ((src[i] == '-') && (src[i + 1] == '0')))
+		if (((src[i] == '0') && (src[i + 1] == '-'))
+		|| ((src[i] == '-') && (src[i + 1] == '0')))
 			i++;
 		i++;
 	}
-	i = ft_check_wildcard(my_list, src, i, par);
-	if (src[i] > '0' && src[i] <= '9')
+	if (src[i] >= '0' && src[i] <= '9')
+	{	
 		par->width = ft_atoi(&src[i]);
+		i = i + 2;
+	}
+	i = ft_check_wildcard(my_list, src, i, par);
 	if ((src[i] == '.' && src[i + 1]))
 		par->precision = ft_atoi(&src[++i]);
 	if ((par->flag != 'a') && src[i + 1] >= '0' && src[i + 1] <= '9')
 		par->width = ft_atoi(&src[i++]);
 	while (src[i] && (src[i] >= '0' && src[i] <= '9'))
 		i++;
-//	printf("par->width = %d, par->flag = %c, par->precision = %d, index = %i\n", par->width, par->flag, par->precision, i);
+//	printf("\npar->width = %d, par->flag = %c, par->precision = %d, index = %i\n", par->width, par->flag, par->precision, i);
 	return (i);
+}
+
+t_params	*ft_init_par(t_params *par)
+{
+	par = malloc(sizeof(t_params) * 1);
+	par->precision = -1;
+	par->width = -1;
+	par->flag = 'a';
+	return (par);
 }
 
 // traiter tout ce qu'il y a apres le %, jusqua un des flags s, c, d, p etc...
@@ -179,21 +202,19 @@ void ft_printf(const char *src, ...)
     i = 0;
     while (src[i])
     {
-		par = malloc(sizeof(t_params) * 1);
-		par->precision = -1;
-		par->width = -1;
-		par->flag = 'a';
+		par = ft_init_par(par);
         if (src[i] != 0 && i != 0 && src[i - 1] == '%')
         {
 			i = ft_check_flags(my_list, src, i, par);
-		//	printf("\npar->width = %d, par->flag = %c, par->precision = %d, index = %d, src[i] = %c\n", par->width, par->flag, par->precision, i, src[i]);
+	//		printf("\npar->width = %d, par->flag = %c, par->precision = %d, index = %d, src[i] = %c\n", par->width, par->flag, par->precision, i, src[i]);
             if (src[i] == 'd')
                 my_printf_nbr(my_list, par);
             if (src[i] == 's')
                 my_printf_str(my_list, par);
             if (src[i] == 'c')
                 my_printf_char(my_list);
-            else if ((src[i] == '%' || (src[i] != 's' && src[i] != 'c' && src[i] != 'd')))
+            else if ((src[i] == '%' ||
+			(src[i] != 's' && src[i] != 'c' && src[i] != 'd')))
             {
                 write(1, &src[i], 1);
 				if (!(src[i] == '%'))
@@ -203,14 +224,15 @@ void ft_printf(const char *src, ...)
         else if (src[i] != '%')
             write(1, &src[i], 1);
         i++;
+		free(par);
     }
 	return ;
 }
 
 int main(int ac, char **argv)
 {
-    ft_printf("Mon printf : %s %s %.020d hello %% %.12s salut \n", "nani", "chaine 1 ", 1, "chaine de caracteres");
-       printf("The printf : %s %s %.020d hello %% %.12s salut \n", "nani", "chaine 1 ", 1, "chaine de caracteres");
+    ft_printf("Mon printf : %s %.s %000.*d hello %% %.12s salut \n", "nani", "chaine 1 ", 23, 1, "chaine de caracteres");
+       printf("The printf : %s %.s %000.*d hello %% %.12s salut \n", "nani", "chaine 1 ", 23, 1, "chaine de caracteres");
 	
     return (0);
 }

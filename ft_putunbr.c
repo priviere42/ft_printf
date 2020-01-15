@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   ft_putnbr.c                                      .::    .:/ .      .::   */
+/*   ft_putunbr.c                                     .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/08 17:58:11 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/15 13:56:44 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/15 14:37:51 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,29 +18,24 @@
 #include <stdlib.h>
 #include "libft.h"
 
-void	ft_putnbr(int n)
+void	ft_putunbr(int n)
 {
 	int mod;
 	int div;
 
-	if (n == -2147483648)
-		write(1, "-2147483648", 11);
-	else
+    if (n == 0)
+        write(1, "0", 1);
+    if ((unsigned int)n > 0)
 	{
-		if (n < 0)
+		if ((unsigned int)n <= 9)
 		{
-			write(1, "-", 1);
-			n = n * -1;
-		}
-		if (n <= 9)
-		{
-			n = n + 48;
+			n = (unsigned int)n + 48;
 			write(1, &n, 1);
 		}
 		else
 		{
-			div = n / 10;
-			mod = n % 10;
+			div = (unsigned int)n / 10;
+			mod = (unsigned int)n % 10;
 			ft_putnbr(div);
 			ft_putnbr(mod);
 		}

@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/15 12:51:57 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/15 15:03:35 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -49,14 +49,14 @@ recuperer les types de conversion:
 	TYPE LETTRES (Precision non specifiée : Minimum de nombres qui doivent apparaitre)
 				 (Si precision donnée aligner sur la droite avec zero a gauche)
 					: c : Int argument convertis en (unsigned char)
-						  Si c = '\0' il faut forcer l'affichage du '\0'
-					: s : Chaine de caractere sans le \0 en (char *)
+done						  Si c = '\0' il faut forcer l'affichage du '\0'
+done					: s : Chaine de caractere sans le \0 en (char *)
 					: p : Affiche en hexadecimal le pointeur void * casté en (unsigned long long)
 
 	TYPE NOMBRES
-					: d : int signed decimal (int)
-					: i : integer signed decimal (int)
-					: u : unsigned decimal (unsigned int)
+done					: d : int signed decimal (int)
+done					: i : integer signed decimal (int)
+done					: u : unsigned decimal (unsigned int)
 					: x : unsigned hexadecimal (unsigned int)
 					: X : unsigned hexadecimal en MAJUSCULE (unsigned int)
 */
@@ -92,6 +92,48 @@ void my_printf_char(va_list my_list)
     c[1] = '\0';
 
     write(1, &c[0], 1);
+}
+
+void my_printf_unbr(va_list my_list, t_params *par)
+{
+    int num = va_arg(my_list, int);
+	int i;
+	int nbr_len;
+
+	nbr_len = ft_strlen(ft_itoa_base(num, 10));
+	i = nbr_len - 1;
+//	if (par->precision > 0 && par->width != -1)    // these lines are getting a problem
+//		par->flag = 'a';
+//	printf("\nwidth dans printfnbr = %d, flag = %c, precision = %d\n", par->width, par->flag, par->precision);
+	// if (par->precision >= 0 && par->width > 0 && par->width > par->precision)
+	// {
+	// 	while (par->flag != '-' && nbr_len < (par->width - par->precision))
+	// 	{
+	// 	//	write(1, "YOYO\n", 5);
+	// 		write(1, " ", 1);
+	// 		nbr_len++;
+	// 	}
+	// }
+	// else
+	{
+		while (par->flag == 'a' && nbr_len < par->width && par->precision < par->width)
+		{
+		//	write(1, "YOYO\n", 5);
+			write(1, " ", 1);
+			nbr_len++;
+		}
+	}
+	while (par->precision > 0 && ++i < par->precision && par->flag != '-')
+		write (1, "0", 1);
+	while (par->precision == -1 && par->flag == '0' && ++i < par->width)
+		write (1, "0", 1);
+	if (!(par->precision == 0 && num == 0))
+    	ft_putunbr(num);
+	while (par->flag == '-' && nbr_len < par->width)
+	{
+		write(1, " ", 1);
+		nbr_len++;
+	}
 }
 
 void my_printf_nbr(va_list my_list, t_params *par)
@@ -136,7 +178,63 @@ void my_printf_nbr(va_list my_list, t_params *par)
 	}
 }
 
-int ft_check_wildcard(va_list my_list, const char *src, int i, t_params *par)
+void	my_printf_hexa(va_list my_list, t_params *par)
+{
+    int num = va_arg(my_list, int);
+	int i;
+	int nbr_len;
+
+	nbr_len = ft_strlen(ft_itoa_base(num, 16));
+	i = nbr_len - 1;
+	{
+		while (par->flag == 'a' && nbr_len < par->width && par->precision < par->width)
+		{
+			write(1, " ", 1);
+			nbr_len++;
+		}
+	}
+	while (par->precision > 0 && ++i < par->precision && par->flag != '-')
+		write (1, "0", 1);
+	while (par->precision == -1 && par->flag == '0' && ++i < par->width)
+		write (1, "0", 1);
+	if (!(par->precision == 0 && num == 0))
+    	write(1, ft_itoa_base(num, 16), nbr_len);
+	while (par->flag == '-' && nbr_len < par->width)
+	{
+		write(1, " ", 1);
+		nbr_len++;
+	}	
+}
+
+void	my_printf_majhexa(va_list my_list, t_params *par)
+{
+    int num = va_arg(my_list, int);
+	int i;
+	int nbr_len;
+
+	nbr_len = ft_strlen(ft_itoa_base_maj(num, 16));
+	i = nbr_len - 1;
+	{
+		while (par->flag == 'a' && nbr_len < par->width && par->precision < par->width)
+		{
+			write(1, " ", 1);
+			nbr_len++;
+		}
+	}
+	while (par->precision > 0 && ++i < par->precision && par->flag != '-')
+		write (1, "0", 1);
+	while (par->precision == -1 && par->flag == '0' && ++i < par->width)
+		write (1, "0", 1);
+	if (!(par->precision == 0 && num == 0))
+    	write(1, ft_itoa_base_maj(num, 16), nbr_len);
+	while (par->flag == '-' && nbr_len < par->width)
+	{
+		write(1, " ", 1);
+		nbr_len++;
+	}	
+}
+
+int 	ft_check_wildcard(va_list my_list, const char *src, int i, t_params *par)
 {
 	int num;
 	
@@ -217,8 +315,6 @@ t_params	*ft_init_par(t_params *par)
 // 	return (-1);
 // }	
 
-
-
 // traiter tout ce qu'il y a apres le %, jusqua un des flags s, c, d, p etc...
 void ft_printf(const char *src, ...)
 {
@@ -248,8 +344,16 @@ void ft_printf(const char *src, ...)
                 my_printf_str(my_list, par);
             if (src[i] == 'c')
                 my_printf_char(my_list);
+			if (src[i] == 'i')
+				my_printf_nbr(my_list, par);
+			if (src[i] == 'u')
+				my_printf_unbr(my_list, par);
+			if (src[i] == 'X')
+				my_printf_majhexa(my_list, par);
+			if (src[i] == 'x')
+				my_printf_hexa(my_list, par);
             else if ((src[i] == '%' ||
-			(src[i] != 's' && src[i] != 'c' && src[i] != 'd')))
+			(src[i] != 's' && src[i] != 'c' && src[i] != 'd' && src[i] != 'i' && src[i] != 'u')))
             {
                 write(1, &src[i], 1);
 				if (!(src[i] == '%'))
@@ -266,8 +370,8 @@ void ft_printf(const char *src, ...)
 
 int main(int ac, char **argv)
 {
-    ft_printf("Mon printf : %10.3d\n", 123456789);
-       printf("The printf : %10.3d\n", 123456789);
+    ft_printf("Mon printf : %X\n", 240);
+       printf("The printf : %X\n", 240);
 	
     return (0);
 }

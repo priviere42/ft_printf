@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   ft_itoa_base.c                                   .::    .:/ .      .::   */
+/*   ft_itoa_base_maj.c                               .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/08 18:29:19 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/15 15:02:49 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/15 15:01:41 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,7 +21,7 @@ int		ft_pow(int nb, int pow)
 		return (nb * ft_pow(nb, pow - 1));
 }
 
-char	*ft_itoa_base(int value, int base)
+char	*ft_itoa_base_maj(int value, int base)
 {
 	int		i;
 	char	*nbr;
@@ -41,7 +41,7 @@ char	*ft_itoa_base(int value, int base)
 	nbr[i + neg] = '\0';
 	while (i-- > 0)
 	{
-		nbr[i + neg] = (value % base) + (value % base > 9 ? 'a' - 10 : '0');
+		nbr[i + neg] = (value % base) + (value % base > 9 ? 'A' - 10 : '0');
 		value = value / base;
 	}
 	if (neg)

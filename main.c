@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/15 15:08:48 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/15 16:43:08 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -48,7 +48,7 @@ recuperer les types de conversion:
 
 	TYPE LETTRES (Precision non specifiée : Minimum de nombres qui doivent apparaitre)
 				 (Si precision donnée aligner sur la droite avec zero a gauche)
-					: c : Int argument convertis en (unsigned char)
+done				: c : Int argument convertis en (unsigned char)
 done						  Si c = '\0' il faut forcer l'affichage du '\0'
 done					: s : Chaine de caractere sans le \0 en (char *)
 					: p : Affiche en hexadecimal le pointeur void * casté en (unsigned long long)
@@ -57,9 +57,14 @@ done					: s : Chaine de caractere sans le \0 en (char *)
 done					: d : int signed decimal (int)
 done					: i : integer signed decimal (int)
 done					: u : unsigned decimal (unsigned int)
-					: x : unsigned hexadecimal (unsigned int)
-					: X : unsigned hexadecimal en MAJUSCULE (unsigned int)
+done					: x : unsigned hexadecimal (unsigned int)
+done					: X : unsigned hexadecimal en MAJUSCULE (unsigned int)
 */
+
+// gerer 'p'
+// ajouter compteur
+// faire un bon makefile
+// faire passer des tests
 
 void my_printf_str(va_list my_list, t_params *par)
 {
@@ -83,12 +88,19 @@ void my_printf_str(va_list my_list, t_params *par)
 	}
 }
 
-void my_printf_char(va_list my_list)
+void my_printf_char(va_list my_list, t_params *par)
 {
-    char *c;
-    
-    c = malloc(sizeof(char) * 2);
-    c[0] = (char)va_arg(my_list, int);
+    unsigned char *c;
+    int i;
+
+	i = 1;
+	while (par->flag != '-' && i < par->width)
+	{
+		write(1, " ", 1);
+		i++;
+	}
+    c = malloc(sizeof(unsigned char) * 2);
+    c[0] = (unsigned char)va_arg(my_list, int);
     c[1] = '\0';
 
     write(1, &c[0], 1);
@@ -160,7 +172,6 @@ void my_printf_nbr(va_list my_list, t_params *par)
 	{
 		while (par->flag == 'a' && nbr_len < par->width && par->precision < par->width)
 		{
-		//	write(1, "YOYO\n", 5);
 			write(1, " ", 1);
 			nbr_len++;
 		}
@@ -203,7 +214,7 @@ void	my_printf_hexa(va_list my_list, t_params *par)
 	{
 		write(1, " ", 1);
 		nbr_len++;
-	}	
+	}
 }
 
 void	my_printf_majhexa(va_list my_list, t_params *par)
@@ -265,8 +276,6 @@ int 	ft_check_wildcard(va_list my_list, const char *src, int i, t_params *par)
 
 int	ft_check_flags(va_list my_list, const char *src, int i, t_params *par)
 {
-	int num;
-
 	if (src[i] == '0' || src[i] == '-')
 	{
 		par->flag = (src[i] == '0') && (src[i + 1] == '-') ? '-' : src[i];
@@ -338,14 +347,12 @@ void ft_printf(const char *src, ...)
 			// if (tmp != -1)
 			// 	(*tabFunction[tmp]) (&my_list);
 	//		printf("\npar->width = %d, par->flag = %c, par->precision = %d, index = %d, src[i] = %c\n", par->width, par->flag, par->precision, i, src[i]);
-            if (src[i] == 'd')
+            if (src[i] == 'd' || src[i] == 'i')
                 my_printf_nbr(my_list, par);
             if (src[i] == 's')
                 my_printf_str(my_list, par);
             if (src[i] == 'c')
-                my_printf_char(my_list);
-			if (src[i] == 'i')
-				my_printf_nbr(my_list, par);
+                my_printf_char(my_list, par);
 			if (src[i] == 'u')
 				my_printf_unbr(my_list, par);
 			if (src[i] == 'X')
@@ -368,13 +375,12 @@ void ft_printf(const char *src, ...)
 	return ;
 }
 
-int main(int ac, char **argv)
+int main()
 {
-    ft_printf("Mon printf : %x\n", 240);
-       printf("The printf : %x\n", 240);
+	char* tutu = "salut";
+
+    ft_printf("Mon printf : %20d\n", 245);
+       printf("The printf : %p\n", tutu);
 	
     return (0);
 }
-
-
-// dans le cas ou on a un - devant l'attribut qui remplace *, 

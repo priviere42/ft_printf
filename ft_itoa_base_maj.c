@@ -6,19 +6,19 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/08 18:29:19 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/15 15:01:41 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/15 15:08:10 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-int		ft_pow(int nb, int pow)
+int		ft_power(int nb, int pow)
 {
 	if (pow == 0)
 		return (1);
 	else
-		return (nb * ft_pow(nb, pow - 1));
+		return (nb * ft_power(nb, pow - 1));
 }
 
 char	*ft_itoa_base_maj(int value, int base)
@@ -35,7 +35,7 @@ char	*ft_itoa_base_maj(int value, int base)
 			neg = 1;
 		value = value * -1;
 	}
-	while (ft_pow(base, i) - 1 < value)
+	while (ft_power(base, i) - 1 < value)
 		i++;
 	nbr = (char*)malloc(sizeof(nbr) * i);
 	nbr[i + neg] = '\0';

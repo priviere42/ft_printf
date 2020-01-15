@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/15 15:03:35 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/15 15:08:48 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -353,7 +353,7 @@ void ft_printf(const char *src, ...)
 			if (src[i] == 'x')
 				my_printf_hexa(my_list, par);
             else if ((src[i] == '%' ||
-			(src[i] != 's' && src[i] != 'c' && src[i] != 'd' && src[i] != 'i' && src[i] != 'u')))
+			(src[i] != 's' && src[i] != 'c' && src[i] != 'd' && src[i] != 'i' && src[i] != 'u' && src[i] != 'x' && src[i] != 'X')))
             {
                 write(1, &src[i], 1);
 				if (!(src[i] == '%'))
@@ -370,8 +370,8 @@ void ft_printf(const char *src, ...)
 
 int main(int ac, char **argv)
 {
-    ft_printf("Mon printf : %X\n", 240);
-       printf("The printf : %X\n", 240);
+    ft_printf("Mon printf : %x\n", 240);
+       printf("The printf : %x\n", 240);
 	
     return (0);
 }

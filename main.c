@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/10 19:30:58 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/15 12:51:57 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -102,9 +102,9 @@ void my_printf_nbr(va_list my_list, t_params *par)
 
 	nbr_len = ft_strlen(ft_itoa_base(num, 10));
 	i = nbr_len - 1;
-	if (par->precision > 0 && par->width != -1)
-		par->flag = 'a';
-	printf("\nwidth dans printfnbr = %d, flag = %c, precision = %d\n", par->width, par->flag, par->precision);
+//	if (par->precision > 0 && par->width != -1)    // these lines are getting a problem
+//		par->flag = 'a';
+//	printf("\nwidth dans printfnbr = %d, flag = %c, precision = %d\n", par->width, par->flag, par->precision);
 	// if (par->precision >= 0 && par->width > 0 && par->width > par->precision)
 	// {
 	// 	while (par->flag != '-' && nbr_len < (par->width - par->precision))
@@ -190,7 +190,7 @@ int	ft_check_flags(va_list my_list, const char *src, int i, t_params *par)
 		par->width = ft_atoi(&src[i++]);
 	while (src[i] && (src[i] >= '0' && src[i] <= '9'))
 		i++;
-	printf("\npar->width = %d, par->flag = %c, par->precision = %d, index = %i\n", par->width, par->flag, par->precision, i);
+//	printf("\npar->width = %d, par->flag = %c, par->precision = %d, index = %i\n", par->width, par->flag, par->precision, i);
 	return (i);
 }
 
@@ -203,21 +203,44 @@ t_params	*ft_init_par(t_params *par)
 	return (par);
 }
 
+// int ft_find_index(char *tab, char element)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	while (tab[i] != 0)
+// 	{
+// 		if (tab[i] == element)
+// 			return (i);
+// 		i++;
+// 	}
+// 	return (-1);
+// }	
+
+
+
 // traiter tout ce qu'il y a apres le %, jusqua un des flags s, c, d, p etc...
 void ft_printf(const char *src, ...)
 {
     va_list my_list;
 	t_params *par;
+	// void (*tabFunction[3]) (va_list *) = {my_printf_str, my_printf_char, my_printf_nbr};
+	// char tabIndex[4] = {'s', 'c', 'd', 0};
+	// int tmp;
     int i;
 
     va_start(my_list, src);
     i = 0;
+	// tmp = 0;
     while (src[i])
     {
 		par = ft_init_par(par);
         if (src[i] != 0 && i != 0 && src[i - 1] == '%')
         {
 			i = ft_check_flags(my_list, src, i, par);
+			// tmp = ft_find_index(tabIndex, src[i]);
+			// if (tmp != -1)
+			// 	(*tabFunction[tmp]) (&my_list);
 	//		printf("\npar->width = %d, par->flag = %c, par->precision = %d, index = %d, src[i] = %c\n", par->width, par->flag, par->precision, i, src[i]);
             if (src[i] == 'd')
                 my_printf_nbr(my_list, par);
@@ -243,8 +266,8 @@ void ft_printf(const char *src, ...)
 
 int main(int ac, char **argv)
 {
-    ft_printf("Mon printf : %10.*d\n", 3, 456789);
-       printf("The printf : %10.*d\n", 3, 456789);
+    ft_printf("Mon printf : %10.3d\n", 123456789);
+       printf("The printf : %10.3d\n", 123456789);
 	
     return (0);
 }

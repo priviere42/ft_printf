@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/16 17:49:01 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/16 19:19:50 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -101,16 +101,18 @@ int my_printf_char(va_list my_list, t_params *par)
 
 	ret = 0;
 	i = 1;
-	while (par->flag != '-' && i < par->width)
+	c = malloc(sizeof(unsigned char) * 2);
+    c[0] = (unsigned char)va_arg(my_list, int);
+    c[1] = '\0';
+	while ((par->flag != '-' || c[0] == 0) && i < par->width)
 	{
 		ret += write(1, " ", 1);
 		i++;
 	}
-    c = malloc(sizeof(unsigned char) * 2);
-    c[0] = (unsigned char)va_arg(my_list, int);
-    c[1] = '\0';
-
-    ret += write(1, &c[0], 1);
+	if (par->type == '%')
+    	ret += write(1, "%", 1);
+    else
+    	ret += write(1, &c[0], 1);
 	return (ret);
 }
 
@@ -352,6 +354,11 @@ int ft_printf(const char *src, ...)
                 ret += my_printf_str(my_list, par);
             if (src[i] == 'c')
                 ret += my_printf_char(my_list, par);
+            if (src[i] == '%')
+			{
+				par->type = '%';
+                ret += my_printf_char(my_list, par);
+			}
 			if (src[i] == 'u')
 				ret += my_printf_unbr(my_list, par);
 			if (src[i] == 'X')
@@ -360,17 +367,9 @@ int ft_printf(const char *src, ...)
 				ret += my_printf_hexa(my_list, par);
 			if (src[i] == 'p')
 				ret += my_printf_p(my_list, par);
-            else if ((src[i] == '%' ||
+            else if ((src[i] != '%' &&
 			(src[i] != 's' && src[i] != 'c' && src[i] != 'd' && src[i] != 'i' && src[i] != 'u' && src[i] != 'x' && src[i] != 'X')))
-            {
-				while (par->flag == 'a' && par->width-- > 1)
-					ret += write(1, " ", 1);
                 ret += write(1, &src[i], 1);
-				while (par->flag == '-' && par->width-- > 1)
-					ret += write(1, " ", 1);
-				if (!(src[i] == '%'))
-                	i++;
-            }
         }
         else if (src[i] != '%')
             ret += write(1, &src[i], 1);
@@ -388,9 +387,9 @@ int ft_printf(const char *src, ...)
 // 	int ret = 0;
 // 	int ret_printf = 0;
 
-//     ret = ft_printf("ft_printf : |%54%|\n");
+//     ret = ft_printf("ft_printf : |%-46c|\n", 0);
 // 	printf("Retour de mon printf :%d\n", ret);
-//     ret_printf = printf("printf    : |%54%|\n");
+//     ret_printf = printf("printf    : |%-46c|\n", 0);
 // 	printf("Retour du vrai printf :%d\n", ret_printf);
 // 	return (0);
 // }

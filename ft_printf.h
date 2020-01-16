@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/10 15:12:22 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/16 14:19:41 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/16 16:20:51 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,7 +23,6 @@ typedef struct	s_params
 	char		flag;
 	int			width;
 	int			precision;
-	char		type;
 }				t_params;
 
 int     ft_strlen_prec(char *src, int precision);

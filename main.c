@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/16 14:30:39 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/16 16:18:00 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -69,15 +69,19 @@ int my_printf_str(va_list my_list, t_params *par)
     char *src = va_arg(my_list, char *);
 	int i;
 	int ret;
+	int nul;
 
 	ret = 0;
+	nul = (src == NULL) ? 6 : 0;
 	i = ft_strlen(src);
-	while (par->flag != '-' && i < par->width)
+	while (par->flag != '-' && i + nul < par->width)
 	{
 		ret += write(1, " ", 1);
 		i++;
 	}
-	if (par->precision != -1)
+	if (src == NULL)
+		ret += write(1, "(null)", 6);
+	if (par->precision != -1 && src != NULL)
     	ret += write(1, src, ft_strlen_prec(src, par->precision));
 	else
 		ret += write(1, src, ft_strlen(src));
@@ -252,19 +256,19 @@ int		my_printf_p(va_list my_list, t_params *par)
 	nbr_len = ft_strlen(ft_ulltoa_base(num, 16));
 	i = nbr_len - 1;
 //	printf("\npar->width = %d, par->flag = %c, par->precision = %d, nbr_len - 1 = %i\n", par->width, par->flag, par->precision, i);
-	while (par->flag == 'a' && nbr_len + 3 < par->width)
+	while (par->flag == 'a' && nbr_len + 2 < par->width)
 	{
 		ret += write(1, " ", 1);
 		nbr_len++;
 	}
-	ret += write(1, "0x1", 3);
+	ret += write(1, "0x", 2);
 	while (par->precision > 0 && ++i < par->precision && par->flag != '-')
 		ret += write (1, "0", 1);
 	while (par->precision == -1 && par->flag == '0' && ++i < par->width)
 		ret += write (1, "0", 1);
 	if (!(par->precision == 0 && num == 0))
     	ret += write(1, ft_ulltoa_base(num, 16), ft_strlen(ft_ulltoa_base(num, 16)));
-	while (par->flag == '-' && nbr_len + 3 < par->width)
+	while (par->flag == '-' && nbr_len + 2 < par->width)
 	{
 		ret += write(1, " ", 1);
 		nbr_len++;
@@ -380,6 +384,7 @@ int ft_printf(const char *src, ...)
         else if (src[i] != '%')
             ret += write(1, &src[i], 1);
         i++;
+		par->index = i;
 		free(par);
     }
 	return (ret);
@@ -388,13 +393,19 @@ int ft_printf(const char *src, ...)
 int main()
 {
 //	char* tutu = "sa";
-	int ret;
-	int ret_printf;
+	int ret = 0;
+	int ret_printf = 0;
 
-    ret = ft_printf("Mon printf : %s\n", NULL);
+    ret = ft_printf("ft_printf :\t|%.46i|\n", 45);
 	printf("Retour de mon printf :%d\n", ret);
-    ret_printf = printf("The printf : %*s\n", 15, NULL);
+    ret_printf = printf("printf    :\t|%.46i|\n", 45);
 	printf("Retour du vrai printf :%d\n", ret_printf);
 
-    return (0);
+		if ((ret_printf = printf("printf    :\t|%.46i|\n", 45)) == (ret = ft_printf("ft_printf :\t|%.46i|\n", 45)))
+			printf("OKKKK");
+		else
+			printf("KO");
+	printf("Mon printf : %d\n", ret);
+	printf("Le vrai    : %d\n", ret_printf);	
+	return (0);
 }

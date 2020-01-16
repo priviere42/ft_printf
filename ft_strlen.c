@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/07 16:57:33 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/16 13:54:27 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/16 14:39:31 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,7 +18,10 @@ size_t	ft_strlen(const char *s)
 	int i;
 
 	i = 0;
-	while (s[i] != '\0')
-		i++;
+	if (s)
+	{
+		while (s[i] != '\0')
+			i++;
+	}
 	return (i);
 }

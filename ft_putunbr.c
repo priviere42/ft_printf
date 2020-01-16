@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/08 17:58:11 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/15 14:37:51 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/16 14:26:52 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,21 +16,22 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
-#include "libft.h"
+#include "ft_printf.h"
 
-void	ft_putunbr(int n)
+int		ft_putunbr(int n)
 {
 	int mod;
 	int div;
+	static int ret = 0;
 
     if (n == 0)
-        write(1, "0", 1);
+        ret += write(1, "0", 1);
     if ((unsigned int)n > 0)
 	{
 		if ((unsigned int)n <= 9)
 		{
 			n = (unsigned int)n + 48;
-			write(1, &n, 1);
+			ret += write(1, &n, 1);
 		}
 		else
 		{
@@ -40,4 +41,5 @@ void	ft_putunbr(int n)
 			ft_putnbr(mod);
 		}
 	}
+	return (ret);
 }

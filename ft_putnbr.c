@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/08 17:58:11 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/15 13:56:44 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/16 14:26:28 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,26 +16,27 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
-#include "libft.h"
+#include "ft_printf.h"
 
-void	ft_putnbr(int n)
+int		ft_putnbr(int n)
 {
 	int mod;
 	int div;
+	static int ret = 0;
 
 	if (n == -2147483648)
-		write(1, "-2147483648", 11);
+		ret += write(1, "-2147483648", 11);
 	else
 	{
 		if (n < 0)
 		{
-			write(1, "-", 1);
+			ret += write(1, "-", 1);
 			n = n * -1;
 		}
 		if (n <= 9)
 		{
 			n = n + 48;
-			write(1, &n, 1);
+			ret += write(1, &n, 1);
 		}
 		else
 		{
@@ -45,4 +46,5 @@ void	ft_putnbr(int n)
 			ft_putnbr(mod);
 		}
 	}
+	return (ret);
 }

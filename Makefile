@@ -1,6 +1,5 @@
-SRCS = ft_atoi.c \
-		ft_itoa_base.c \
-		ft_itoa_base_maj.c \
+SRCS = 	ft_atoi.c \
+		ft_itoas_base.c \
 		ft_putnbr.c \
 		ft_putunbr.c \
 		ft_strdup.c \
@@ -12,7 +11,7 @@ INCLUDES = libft.h
 
 OBJS = ${SRCS:.c=.o}
 
-NAME = libft.a
+NAME = ft_printf.a
 
 CC = cc
 RM = rm -f

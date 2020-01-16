@@ -1,7 +1,5 @@
 SRCS = 	ft_atoi.c \
 		ft_itoas_base.c \
-		ft_putnbr.c \
-		ft_putunbr.c \
 		ft_strdup.c \
 		ft_strlen_prec.c \
 		ft_strlen.c \

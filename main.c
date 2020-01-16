@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/16 16:18:00 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/16 17:28:28 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -85,7 +85,7 @@ int my_printf_str(va_list my_list, t_params *par)
     	ret += write(1, src, ft_strlen_prec(src, par->precision));
 	else
 		ret += write(1, src, ft_strlen(src));
-	while (par->flag == '-' && i < par->width)
+	while (par->flag == '-' && i + nul < par->width)
 	{
 		ret += write(1, " ", 1);
 		i++;
@@ -116,13 +116,13 @@ int my_printf_char(va_list my_list, t_params *par)
 
 int my_printf_unbr(va_list my_list, t_params *par)
 {
-    int num = va_arg(my_list, int);
+    unsigned long long num = va_arg(my_list, unsigned long long);
 	int i;
 	int nbr_len;
 	int ret;
 
 	ret = 0;
-	nbr_len = ft_strlen(ft_itoa_base(num, 10));
+	nbr_len = ft_strlen(ft_ulltoa_base(num, 10));
 	i = nbr_len - 1;
 	{
 		while (par->flag == 'a' && nbr_len < par->width && par->precision < par->width)
@@ -136,7 +136,7 @@ int my_printf_unbr(va_list my_list, t_params *par)
 	while (par->precision == -1 && par->flag == '0' && ++i < par->width)
 		ret += write (1, "0", 1);
 	if (!(par->precision == 0 && num == 0))
-    	ret += ft_putunbr(num);
+    	ret += write(1, ft_ulltoa_base(num, 10), ft_strlen(ft_ulltoa_base(num, 10)));
 	while (par->flag == '-' && nbr_len < par->width)
 	{
 		ret += write(1, " ", 1);
@@ -155,19 +155,6 @@ int my_printf_nbr(va_list my_list, t_params *par)
 	ret = 0;
 	nbr_len = ft_strlen(ft_itoa_base(num, 10));
 	i = nbr_len - 1;
-//	if (par->precision > 0 && par->width != -1)    // these lines are getting a problem
-//		par->flag = 'a';
-//	printf("\nwidth dans printfnbr = %d, flag = %c, precision = %d\n", par->width, par->flag, par->precision);
-	// if (par->precision >= 0 && par->width > 0 && par->width > par->precision)
-	// {
-	// 	while (par->flag != '-' && nbr_len < (par->width - par->precision))
-	// 	{
-	// 	//	write(1, "YOYO\n", 5);
-	// 		write(1, " ", 1);
-	// 		nbr_len++;
-	// 	}
-	// }
-	// else
 	while (par->flag == 'a' && nbr_len < par->width && par->precision < par->width)
 	{
 		ret += write(1, " ", 1);
@@ -178,7 +165,7 @@ int my_printf_nbr(va_list my_list, t_params *par)
 	while (par->precision == -1 && par->flag == '0' && ++i < par->width)
 		ret += write (1, "0", 1);
 	if (!(par->precision == 0 && num == 0))
-    	ret += ft_putnbr(num);
+    	ret += write(1, ft_itoa_base(num, 10), ft_strlen(ft_itoa_base(num, 10)));
 	while (par->flag == '-' && nbr_len < par->width)
 	{
 		ret += write(1, " ", 1);
@@ -189,13 +176,13 @@ int my_printf_nbr(va_list my_list, t_params *par)
 
 int	my_printf_hexa(va_list my_list, t_params *par)
 {
-    int num = va_arg(my_list, int);
+    unsigned long long num = va_arg(my_list, unsigned long long);
 	int i;
 	int nbr_len;
 	int ret;
 
 	ret = 0;
-	nbr_len = ft_strlen(ft_itoa_base(num, 16));
+	nbr_len = ft_strlen(ft_ulltoa_base(num, 16));
 	i = nbr_len - 1;
 	while (par->flag == 'a' && nbr_len < par->width && par->precision < par->width)
 	{
@@ -207,7 +194,7 @@ int	my_printf_hexa(va_list my_list, t_params *par)
 	while (par->precision == -1 && par->flag == '0' && ++i < par->width)
 		ret += write (1, "0", 1);
 	if (!(par->precision == 0 && num == 0))
-    	ret += write(1, ft_itoa_base(num, 16), ft_strlen(ft_itoa_base_maj(num, 16)));
+    	ret += write(1, ft_ulltoa_base(num, 16), ft_strlen(ft_ulltoa_base(num, 16)));
 	while (par->flag == '-' && nbr_len < par->width)
 	{
 		ret += write(1, " ", 1);
@@ -218,13 +205,13 @@ int	my_printf_hexa(va_list my_list, t_params *par)
 
 int	my_printf_majhexa(va_list my_list, t_params *par)
 {
-    int num = va_arg(my_list, int);
+    unsigned long long num = va_arg(my_list, unsigned long long);
 	int i;
 	int nbr_len;
 	int ret;
 
 	ret = 0;
-	nbr_len = ft_strlen(ft_itoa_base_maj(num, 16));
+	nbr_len = ft_strlen(ft_ulltoa_base_maj(num, 16));
 	i = nbr_len - 1;
 	while (par->flag == 'a' && nbr_len < par->width && par->precision < par->width)
 	{
@@ -236,7 +223,7 @@ int	my_printf_majhexa(va_list my_list, t_params *par)
 	while (par->precision == -1 && par->flag == '0' && ++i < par->width)
 		ret += write (1, "0", 1);
 	if (!(par->precision == 0 && num == 0))
-    	ret += write(1, ft_itoa_base_maj(num, 16), ft_strlen(ft_itoa_base_maj(num, 16)));
+    	ret += write(1, ft_ulltoa_base_maj(num, 16), ft_strlen(ft_ulltoa_base_maj(num, 16)));
 	while (par->flag == '-' && nbr_len < par->width)
 	{
 		ret += write(1, " ", 1);
@@ -384,28 +371,22 @@ int ft_printf(const char *src, ...)
         else if (src[i] != '%')
             ret += write(1, &src[i], 1);
         i++;
-		par->index = i;
 		free(par);
     }
 	return (ret);
 }
 
-int main()
-{
-//	char* tutu = "sa";
-	int ret = 0;
-	int ret_printf = 0;
 
-    ret = ft_printf("ft_printf :\t|%.46i|\n", 45);
-	printf("Retour de mon printf :%d\n", ret);
-    ret_printf = printf("printf    :\t|%.46i|\n", 45);
-	printf("Retour du vrai printf :%d\n", ret_printf);
+// #include <limits.h>
+// int main()
+// {
+// //	char* tutu = "sa";
+// 	int ret = 0;
+// 	int ret_printf = 0;
 
-		if ((ret_printf = printf("printf    :\t|%.46i|\n", 45)) == (ret = ft_printf("ft_printf :\t|%.46i|\n", 45)))
-			printf("OKKKK");
-		else
-			printf("KO");
-	printf("Mon printf : %d\n", ret);
-	printf("Le vrai    : %d\n", ret_printf);	
-	return (0);
-}
+//     ret = ft_printf("ft_printf : |%x|\n", UINT_MAX);
+// 	printf("Retour de mon printf :%d\n", ret);
+//     ret_printf = printf("printf    : |%x|\n", UINT_MAX);
+// 	printf("Retour du vrai printf :%d\n", ret_printf);
+// 	return (0);
+// }

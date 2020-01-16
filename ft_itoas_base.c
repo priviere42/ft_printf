@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/08 18:29:19 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/16 14:07:16 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/16 17:28:44 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -32,10 +32,14 @@ unsigned long long		ft_pow_ull(unsigned long long nb, int pow)
 
 char	*ft_itoa_base(int value, int base)
 {
-	int		i;
-	char	*nbr;
-	int		neg;
+	int			i;
+	char		*nbr;
+	int			neg;
 
+	if (value == -2147483648)
+		return ("-2147483648");
+	if (value == 2147483647)
+		return ("2147483647");
 	i = 1;
 	neg = 0;
 	if (value < 0)
@@ -66,6 +70,10 @@ char	*ft_itoa_base_maj(int value, int base)
 
 	i = 1;
 	neg = 0;
+	if (value == -2147483648)
+		return ("-2147483648");
+	if (value == 2147483647)
+		return ("2147483647");
 	if (value < 0)
 	{
 		if (base == 10)
@@ -92,6 +100,8 @@ char	*ft_ulltoa_base(unsigned long long value, int base)
 	char	*nbr;
 
 	i = 1;
+	if (value == 2147483647)
+		return ("2147483647");
 	while (ft_pow_ull(base, i) - 1 < value)
 		i++;
 	nbr = (char*)malloc(sizeof(nbr) * i);
@@ -99,6 +109,26 @@ char	*ft_ulltoa_base(unsigned long long value, int base)
 	while (i-- > 0)
 	{
 		nbr[i] = (value % base) + (value % base > 9 ? 'a' - 10 : '0');
+		value = value / base;
+	}
+	return (nbr);
+}
+
+char	*ft_ulltoa_base_maj(unsigned long long value, int base)
+{
+	int		i;
+	char	*nbr;
+
+	i = 1;
+	if (value == 2147483647)
+		return ("2147483647");
+	while (ft_pow_ull(base, i) - 1 < value)
+		i++;
+	nbr = (char*)malloc(sizeof(nbr) * i);
+	nbr[i] = '\0';
+	while (i-- > 0)
+	{
+		nbr[i] = (value % base) + (value % base > 9 ? 'A' - 10 : '0');
 		value = value / base;
 	}
 	return (nbr);

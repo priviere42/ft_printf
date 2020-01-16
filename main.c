@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/15 16:43:08 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/16 13:29:23 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -169,12 +169,10 @@ void my_printf_nbr(va_list my_list, t_params *par)
 	// 	}
 	// }
 	// else
+	while (par->flag == 'a' && nbr_len < par->width && par->precision < par->width)
 	{
-		while (par->flag == 'a' && nbr_len < par->width && par->precision < par->width)
-		{
-			write(1, " ", 1);
-			nbr_len++;
-		}
+		write(1, " ", 1);
+		nbr_len++;
 	}
 	while (par->precision > 0 && ++i < par->precision && par->flag != '-')
 		write (1, "0", 1);
@@ -197,19 +195,17 @@ void	my_printf_hexa(va_list my_list, t_params *par)
 
 	nbr_len = ft_strlen(ft_itoa_base(num, 16));
 	i = nbr_len - 1;
+	while (par->flag == 'a' && nbr_len < par->width && par->precision < par->width)
 	{
-		while (par->flag == 'a' && nbr_len < par->width && par->precision < par->width)
-		{
-			write(1, " ", 1);
-			nbr_len++;
-		}
+		write(1, " ", 1);
+		nbr_len++;
 	}
 	while (par->precision > 0 && ++i < par->precision && par->flag != '-')
 		write (1, "0", 1);
 	while (par->precision == -1 && par->flag == '0' && ++i < par->width)
 		write (1, "0", 1);
 	if (!(par->precision == 0 && num == 0))
-    	write(1, ft_itoa_base(num, 16), nbr_len);
+    	write(1, ft_itoa_base(num, 16), ft_strlen(ft_itoa_base_maj(num, 16)));
 	while (par->flag == '-' && nbr_len < par->width)
 	{
 		write(1, " ", 1);
@@ -225,24 +221,50 @@ void	my_printf_majhexa(va_list my_list, t_params *par)
 
 	nbr_len = ft_strlen(ft_itoa_base_maj(num, 16));
 	i = nbr_len - 1;
+	while (par->flag == 'a' && nbr_len < par->width && par->precision < par->width)
 	{
-		while (par->flag == 'a' && nbr_len < par->width && par->precision < par->width)
-		{
-			write(1, " ", 1);
-			nbr_len++;
-		}
+		write(1, " ", 1);
+		nbr_len++;
 	}
 	while (par->precision > 0 && ++i < par->precision && par->flag != '-')
 		write (1, "0", 1);
 	while (par->precision == -1 && par->flag == '0' && ++i < par->width)
 		write (1, "0", 1);
 	if (!(par->precision == 0 && num == 0))
-    	write(1, ft_itoa_base_maj(num, 16), nbr_len);
+    	write(1, ft_itoa_base_maj(num, 16), ft_strlen(ft_itoa_base_maj(num, 16)));
 	while (par->flag == '-' && nbr_len < par->width)
 	{
 		write(1, " ", 1);
 		nbr_len++;
-	}	
+	}
+}
+
+void	my_printf_p(va_list my_list, t_params *par)
+{
+    unsigned long long num = va_arg(my_list, unsigned long long);
+	int i;
+	int nbr_len;
+
+	nbr_len = ft_strlen(ft_ulltoa_base(num, 16));
+	i = nbr_len - 1;
+	printf("\npar->width = %d, par->flag = %c, par->precision = %d, nbr_len - 1 = %i\n", par->width, par->flag, par->precision, i);
+	while (par->flag == 'a' && nbr_len + 3 < par->width)
+	{
+		write(1, " ", 1);
+		nbr_len++;
+	}
+	write(1, "0x1", 3);
+	while (par->precision > 0 && ++i < par->precision && par->flag != '-')
+		write (1, "0", 1);
+	while (par->precision == -1 && par->flag == '0' && ++i < par->width)
+		write (1, "0", 1);
+	if (!(par->precision == 0 && num == 0))
+    	write(1, ft_ulltoa_base(num, 16), ft_strlen(ft_ulltoa_base(num, 16)));
+	while (par->flag == '-' && nbr_len + 3 < par->width)
+	{
+		write(1, " ", 1);
+		nbr_len++;
+	}
 }
 
 int 	ft_check_wildcard(va_list my_list, const char *src, int i, t_params *par)
@@ -359,6 +381,8 @@ void ft_printf(const char *src, ...)
 				my_printf_majhexa(my_list, par);
 			if (src[i] == 'x')
 				my_printf_hexa(my_list, par);
+			if (src[i] == 'p')
+				my_printf_p(my_list, par);
             else if ((src[i] == '%' ||
 			(src[i] != 's' && src[i] != 'c' && src[i] != 'd' && src[i] != 'i' && src[i] != 'u' && src[i] != 'x' && src[i] != 'X')))
             {
@@ -377,10 +401,10 @@ void ft_printf(const char *src, ...)
 
 int main()
 {
-	char* tutu = "salut";
+	char* tutu = "sa";
 
-    ft_printf("Mon printf : %20d\n", 245);
-       printf("The printf : %p\n", tutu);
+    ft_printf("Mon printf : %*p\n", 20, tutu);
+       printf("The printf : %*p\n", 20, tutu);
 	
     return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/10 15:12:22 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/15 15:02:13 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/16 11:11:09 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -36,6 +36,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_itoa(int n);
 char	*ft_itoa_base(int value, int base);
 char	*ft_itoa_base_maj(int value, int base);
+char	*ft_ulltoa_base(unsigned long long value, int base);
 
 
 #endif

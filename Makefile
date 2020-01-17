@@ -2,7 +2,7 @@ SRCS =  ft_itoas_base.c \
 		utils.c      	\
 		print_nbr.c		\
 		print_str.c		\
-		main.c
+		ft_printf.c
 
 INCLUDES = libft.h
 

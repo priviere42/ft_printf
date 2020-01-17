@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/17 10:38:55 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/17 11:24:39 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/17 14:52:51 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -71,5 +71,6 @@ t_params	*ft_init_par(t_params *par)
 	par->precision = -1;
 	par->width = -1;
 	par->flag = 'a';
+    par->type = 'a';
 	return (par);
 }

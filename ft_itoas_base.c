@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/08 18:29:19 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/17 11:04:54 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/17 14:06:33 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include "ft_printf.h"
 
-int						ft_pow(int nb, int pow)
+long long				ft_pow(long long nb, long long pow)
 {
 	if (pow == 0)
 		return (1);
@@ -30,16 +30,12 @@ unsigned long long		ft_pow_ull(unsigned long long nb, int pow)
 		return (nb * ft_pow_ull(nb, pow - 1));
 }
 
-char					*ft_itoa_base(int value, int base)
+char					*ft_itoa_base(long long value, long long base)
 {
-	int			i;
+	long long			i;
 	char		*nbr;
-	int			neg;
+	long long			neg;
 
-	if (value == -2147483648)
-		return ("-2147483648");
-	if (value == 2147483647)
-		return ("2147483647");
 	i = 1;
 	neg = 0;
 	if (value < 0)
@@ -62,7 +58,7 @@ char					*ft_itoa_base(int value, int base)
 	return (nbr);
 }
 
-char	*ft_itoa_base_maj(int value, int base)
+char					*ft_itoa_base_maj(long long value, long long base)
 {
 	int		i;
 	char	*nbr;
@@ -70,10 +66,6 @@ char	*ft_itoa_base_maj(int value, int base)
 
 	i = 1;
 	neg = 0;
-	if (value == -2147483648)
-		return ("-2147483648");
-	if (value == 2147483647)
-		return ("2147483647");
 	if (value < 0)
 	{
 		if (base == 10)
@@ -94,7 +86,7 @@ char	*ft_itoa_base_maj(int value, int base)
 	return (nbr);
 }
 
-char	*ft_ulltoa_base(unsigned long long value, int base)
+char					*ft_ulltoa_base(unsigned long long value, int base)
 {
 	int		i;
 	char	*nbr;
@@ -114,7 +106,7 @@ char	*ft_ulltoa_base(unsigned long long value, int base)
 	return (nbr);
 }
 
-char	*ft_ulltoa_base_maj(unsigned long long value, int base)
+char					*ft_ulltoa_base_maj(unsigned long long value, int base)
 {
 	int		i;
 	char	*nbr;

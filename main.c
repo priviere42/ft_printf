@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/17 10:49:44 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/17 11:26:19 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -116,7 +116,6 @@ int ft_printf(const char *src, ...)
     }
 	return (ret);
 }
-
 
 // #include <limits.h>
 // int main()

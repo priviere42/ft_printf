@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/10 15:12:22 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/17 10:47:30 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/17 14:06:45 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -33,8 +33,8 @@ int			ft_atoi(const char *str);
 size_t		ft_strlen(const char *s);
 char		*ft_strdup(const char *s1);
 t_params	*ft_init_par(t_params *par);
-char		*ft_itoa_base(int value, int base);
-char		*ft_itoa_base_maj(int value, int base);
+char		*ft_itoa_base(int long long, long long base);
+char		*ft_itoa_base_maj(long long value, long long base);
 char		*ft_ulltoa_base(unsigned long long value, int base);
 char		*ft_ulltoa_base_maj(unsigned long long value, int base);
 int 		my_printf_unbr(va_list my_list, t_params *par);

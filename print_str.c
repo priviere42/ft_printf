@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/17 10:36:00 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/17 11:25:49 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/17 11:28:26 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -57,5 +57,6 @@ int		my_printf_char(va_list my_list, t_params *par)
 		ret += write(1, "%", 1);
 	else
 		ret += write(1, &c[0], 1);
+	free(c);
 	return (ret);
 }

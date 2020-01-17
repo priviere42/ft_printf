@@ -126,9 +126,9 @@ int		ft_printf(const char *src, ...)
 // 	int ret = 0;
 // 	int ret_printf = 0;
 
-//     ret = ft_printf("ft_printf : |%-46c|\n", 0);
+//     ret = ft_printf("ft_printf : |%x|\n", INT_MAX);
 // 	printf("Retour de mon printf :%d\n", ret);
-//     ret_printf = printf("printf    : |%-46c|\n", 0);
+//     ret_printf = printf("printf    : |%x|\n", INT_MAX);
 // 	printf("Retour du vrai printf :%d\n", ret_printf);
 // 	return (0);
 // }

@@ -22,7 +22,7 @@ long long				ft_pow(long long nb, long long pow)
 		return (nb * ft_pow(nb, pow - 1));
 }
 
-unsigned long long		ft_pow_ull(unsigned long long nb, int pow)
+unsigned long long		ft_pow_ull(unsigned long long nb, unsigned long long pow)
 {
 	if (pow == 0)
 		return (1);
@@ -92,8 +92,6 @@ char					*ft_ulltoa_base(unsigned long long value, int base)
 	char	*nbr;
 
 	i = 1;
-	if (value == 2147483647)
-		return ("2147483647");
 	while (ft_pow_ull(base, i) - 1 < value)
 		i++;
 	nbr = (char*)malloc(sizeof(nbr) * i);
@@ -112,8 +110,6 @@ char					*ft_ulltoa_base_maj(unsigned long long value, int base)
 	char	*nbr;
 
 	i = 1;
-	if (value == 2147483647)
-		return ("2147483647");
 	while (ft_pow_ull(base, i) - 1 < value)
 		i++;
 	nbr = (char*)malloc(sizeof(nbr) * i);

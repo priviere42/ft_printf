@@ -8,7 +8,7 @@ INCLUDES = libft.h
 
 OBJS = ${SRCS:.c=.o}
 
-NAME = ft_printf.a
+NAME = libftprintf.a
 
 CC = cc
 RM = rm -f

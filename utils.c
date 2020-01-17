@@ -1,17 +1,62 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   ft_atoi.c                                        .::    .:/ .      .::   */
+/*   utils.c                                          .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/10/08 12:00:03 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/16 13:50:47 by priviere    ###    #+. /#+    ###.fr     */
+/*   Created: 2020/01/17 10:38:55 by priviere     #+#   ##    ##    #+#       */
+/*   Updated: 2020/01/17 10:42:30 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+size_t	ft_strlen(const char *s)
+{
+	int i;
+
+	i = 0;
+	if (s)
+	{
+		while (s[i] != '\0')
+			i++;
+	}
+	return (i);
+}
+
+int		ft_strlen_prec(char *src, int precision)
+{
+	int i;
+
+	i = 0;
+	if (precision >= 0)
+		while (src[i] && i < precision)
+			i++;
+	else
+		while (src[i])
+			i++;
+	return (i);
+}
+
+char	*ft_strdup(const char *s1)
+{
+	char	*src;
+	int		i;
+
+	i = ft_strlen(s1);
+	if (!(src = (char *)malloc(sizeof(char) * (i + 1))))
+		return (NULL);
+	i = 0;
+	while (s1[i] != '\0')
+	{
+		src[i] = s1[i];
+		i++;
+	}
+	src[i] = '\0';
+	return (src);
+}
 
 int		ft_atoi(const char *str)
 {
@@ -36,4 +81,13 @@ int		ft_atoi(const char *str)
 		i++;
 	}
 	return (a * sign);
+}
+
+t_params	*ft_init_par(t_params *par)
+{
+	par = malloc(sizeof(t_params) * 1);
+	par->precision = -1;
+	par->width = -1;
+	par->flag = 'a';
+	return (par);
 }

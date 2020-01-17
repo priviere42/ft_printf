@@ -1,8 +1,7 @@
-SRCS = 	ft_atoi.c \
-		ft_itoas_base.c \
-		ft_strdup.c \
-		ft_strlen_prec.c \
-		ft_strlen.c \
+SRCS =  ft_itoas_base.c \
+		utils.c      	\
+		print_nbr.c		\
+		print_str.c		\
 		main.c
 
 INCLUDES = libft.h

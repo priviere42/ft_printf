@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/17 10:36:00 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/17 11:14:56 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/17 11:25:49 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -40,7 +40,7 @@ int		my_printf_str(va_list my_list, t_params *par)
 int		my_printf_char(va_list my_list, t_params *par)
 {
 	unsigned char	*c;
-	int 			i;
+	int				i;
 	int				ret;
 
 	ret = 0;

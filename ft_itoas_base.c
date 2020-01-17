@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/08 18:29:19 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/17 14:06:33 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/17 16:29:55 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -33,7 +33,7 @@ unsigned long long		ft_pow_ull(unsigned long long nb, int pow)
 char					*ft_itoa_base(long long value, long long base)
 {
 	long long			i;
-	char		*nbr;
+	char		        *nbr;
 	long long			neg;
 
 	i = 1;

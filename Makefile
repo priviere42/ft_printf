@@ -13,7 +13,7 @@ NAME = ft_printf.a
 CC = cc
 RM = rm -f
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Werror -Wextra
 
 all:		${NAME}
 

@@ -6,58 +6,12 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/17 10:40:07 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/17 10:49:44 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-/*
-Ecrire au fur et a mesure le texte puis les flags%_ puis text puis flags%_ ...
-Traiter le %
-done					: % : pour afficher un % si precede %
-
-Recuperer les flags :
-					: 0 : Suivi de la width : nombre en str donne le minimum de CARACTERES
-						  à afficher. Si precision est donnée avec d (done), i, u, o, x, X le flag est ignoré
-						  printf("%00d\n", 0);-> outputs '0' (done)
-done					: - : Aligne a gauche dans la width
-done						  Prioritaire sur le 0 si les deux flags sont présents
-
-Recuperer la width :
-done					: entier decimal : (si negatif passe en positif et met le flag a '-') nombre de caracteres a afficher
-done						  ajoute des ' ' a gauche ou droite si '-' si trop grand
-						  ne tronque pas les nombres originaux
-					: * : largeur de champs ou precision ou les deux indiqué par *
-
-recuperer la precision :
-					: . : Suivi d'un nombre en str (ne peut pas etre negatif) donne le nombre minimum de CHIFFRES
-						  a afficher pour d (done), i, o, u, x, X (si pas de chiffre precision a 0)
-done						  nombre de char max a afficher pour s 
-done						  printf("%.0d", 0);  -> no output
-done						  printf("%.0d", 10); -> outputs 10
-					: * : largeur de champs ou precision ou les deux indiqué par *
-
-recuperer les types de conversion:
-
-	TYPE LETTRES (Precision non specifiée : Minimum de nombres qui doivent apparaitre)
-				 (Si precision donnée aligner sur la droite avec zero a gauche)
-done				: c : Int argument convertis en (unsigned char)
-done						  Si c = '\0' il faut forcer l'affichage du '\0'
-done					: s : Chaine de caractere sans le \0 en (char *)
-					: p : Affiche en hexadecimal le pointeur void * casté en (unsigned long long)
-
-	TYPE NOMBRES
-done					: d : int signed decimal (int)
-done					: i : integer signed decimal (int)
-done					: u : unsigned decimal (unsigned int)
-done					: x : unsigned hexadecimal (unsigned int)
-done					: X : unsigned hexadecimal en MAJUSCULE (unsigned int)
-*/
-
-// faire un bon makefile
-// faire passer des tests
 
 int 	ft_check_wildcard(va_list my_list, const char *src, int i, t_params *par)
 {
@@ -115,7 +69,6 @@ int	ft_check_flags(va_list my_list, const char *src, int i, t_params *par)
 	return (i);
 }
 
-// traiter tout ce qu'il y a apres le %, jusqua un des flags s, c, d, p etc...
 int ft_printf(const char *src, ...)
 {
     va_list my_list;

@@ -6,14 +6,14 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/17 10:38:55 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/17 10:42:30 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/17 11:24:39 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-size_t	ft_strlen(const char *s)
+size_t		ft_strlen(const char *s)
 {
 	int i;
 
@@ -26,7 +26,7 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-int		ft_strlen_prec(char *src, int precision)
+int			ft_strlen_prec(char *src, int precision)
 {
 	int i;
 
@@ -40,25 +40,7 @@ int		ft_strlen_prec(char *src, int precision)
 	return (i);
 }
 
-char	*ft_strdup(const char *s1)
-{
-	char	*src;
-	int		i;
-
-	i = ft_strlen(s1);
-	if (!(src = (char *)malloc(sizeof(char) * (i + 1))))
-		return (NULL);
-	i = 0;
-	while (s1[i] != '\0')
-	{
-		src[i] = s1[i];
-		i++;
-	}
-	src[i] = '\0';
-	return (src);
-}
-
-int		ft_atoi(const char *str)
+int			ft_atoi(const char *str)
 {
 	long	i;
 	long	a;

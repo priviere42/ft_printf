@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/08 18:29:19 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/16 17:28:44 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/17 11:04:54 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include "ft_printf.h"
 
-int		ft_pow(int nb, int pow)
+int						ft_pow(int nb, int pow)
 {
 	if (pow == 0)
 		return (1);
@@ -30,7 +30,7 @@ unsigned long long		ft_pow_ull(unsigned long long nb, int pow)
 		return (nb * ft_pow_ull(nb, pow - 1));
 }
 
-char	*ft_itoa_base(int value, int base)
+char					*ft_itoa_base(int value, int base)
 {
 	int			i;
 	char		*nbr;

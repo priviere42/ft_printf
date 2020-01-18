@@ -86,18 +86,13 @@ int		ft_printf(const char *src, ...)
 		if (src[i] != 0 && i != 0 && src[i - 1] == '%')
 		{
 			i = ft_check_flags(my_list, src, i, par);
-//			printf("\npar->width = %d, par->flag = %c, par->precision = %d, index = %d, src[i] = %c\n", par->width, par->flag, par->precision, i, src[i]);
+	//		printf("\npar->width = %d, par->flag = %c, par->precision = %d, index = %d, src[i] = %c\n", par->width, par->flag, par->precision, i, src[i]);
 			if (src[i] == 'd' || src[i] == 'i')
 				ret += my_printf_nbr(my_list, par);
 			if (src[i] == 's')
 				ret += my_printf_str(my_list, par);
 			if (src[i] == 'c')
 				ret += my_printf_char(my_list, par);
-			if (src[i] == '%')
-			{
-				par->type = '%';
-				ret += my_printf_char(my_list, par);
-			}
 			if (src[i] == 'u')
 				ret += my_printf_unbr(my_list, par);
 			if (src[i] == 'X')
@@ -106,10 +101,17 @@ int		ft_printf(const char *src, ...)
 				ret += my_printf_hexa(my_list, par);
 			if (src[i] == 'p')
 				ret += my_printf_p(my_list, par);
+			if (src[i] == '%')
+			{
+				par->flag = '%';
+				ret += my_printf_perc(par);
+				if (src[i + 1] && src[i + 1] == '%')
+					i++;
+			}
 			else if ((src[i] != '%' &&
 			(src[i] != 's' && src[i] != 'c' && src[i] != 'd' && src[i] != 'i'
-			&& src[i] != 'u' && src[i] != 'x' && src[i] != 'X')))
-				ret += write(1, &src[i], 1);
+			&& src[i] != 'u' && src[i] != 'x' && src[i] != 'X' && src[i] != 'p')))
+				ret += write(1, "&src[i]", 1);
 		}
 		else if (src[i] != '%')
 			ret += write(1, &src[i], 1);
@@ -126,9 +128,9 @@ int		ft_printf(const char *src, ...)
 // 	int ret = 0;
 // 	int ret_printf = 0;
 
-//     ret = ft_printf("ft_printf : |%6.0s|\n", NULL);
+//     ret = ft_printf("%%");
 // 	printf("Retour de mon printf :%d\n", ret);
-//     ret_printf = printf("printf    : |%6.0s|\n", NULL);
+//     ret_printf = printf("%%");
 // 	printf("Retour du vrai printf :%d\n", ret_printf);
 // 	return (0);
 // }

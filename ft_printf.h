@@ -44,6 +44,7 @@ int			my_printf_majhexa(va_list my_list, t_params *par);
 int			my_printf_p(va_list my_list, t_params *par);
 int 		my_printf_str(va_list my_list, t_params *par);
 int 		my_printf_char(va_list my_list, t_params *par);
+int		my_printf_perc(t_params *par);
 int 		ft_printf(const char *src, ...);
 
 #endif

@@ -20,11 +20,11 @@ int		my_printf_str(va_list my_list, t_params *par)
 	int		ret;
 	int		nul;
 
-    if (par->precision == 0)
-        return (0);
+    // if (par->precision == 0 && par->width == 0)
+    //     return (0);
 	src = va_arg(my_list, char *);
 	ret = 0;
-	nul = (src == NULL) ? 6 : 0;
+	nul = ((src == NULL) && par->precision != 0) ? 6 : 0;
 	i = ft_strlen(src) + nul;
 	while (par->flag != '-' && i++ < par->width)
 		ret += write(1, " ", 1);

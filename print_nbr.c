@@ -57,11 +57,15 @@ int my_printf_nbr(va_list my_list, t_params *par)
 	while (par->flag == 'a' && nbr_len++ < par->width
     && par->precision < par->width)
 		ret += write(1, " ", 1);
+	if (!(par->precision == 0 && num == 0) && num < 0)
+		ret += write(1, "-", 1);
 	while (par->precision > 0 && ++i < par->precision && par->flag != '-')
 		ret += write(1, "0", 1);
 	while (par->precision == -1 && par->flag == '0' && ++i < par->width)
 		ret += write(1, "0", 1);
-	if (!(par->precision == 0 && num == 0))
+	if (!(par->precision == 0 && num == 0) && num < 0)
+		ret += write(1, &number[1], ft_strlen(number)-1);
+	if (!(par->precision == 0 && num == 0) && num >= 0)
     	ret += write(1, number, ft_strlen(number));
 	while (par->flag == '-' && nbr_len++ < par->width)
 		ret += write(1, " ", 1);

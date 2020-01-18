@@ -59,6 +59,8 @@ int		my_printf_char(va_list my_list, t_params *par)
 		ret += write(1, "%", 1);
 	else
 		ret += write(1, &c[0], 1);
+	while (par->flag == '-' && i++ < par->width)
+		ret += write(1, " ", 1);
 	free(c);
 	return (ret);
 }
@@ -70,13 +72,13 @@ int		my_printf_perc(t_params *par)
 
 	ret = 0;
 	i = 1;
-	while (par->flag == '-' && i < par->width)
+	while (par->flag != '-' && i < par->width)
 	{
 		ret += write(1, " ", 1);
 		i++;
 	}
 	ret += write(1, "%", 1);
-	while (par->flag != '-' && i++ < par->width)
+	while (par->flag == '-' && i++ < par->width)
 		ret += write(1, " ", 1);
 	return (ret);
 }

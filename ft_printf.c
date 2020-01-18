@@ -128,9 +128,9 @@ int		ft_printf(const char *src, ...)
 // 	int ret = 0;
 // 	int ret_printf = 0;
 
-//     ret = ft_printf("%%");
+//     ret = ft_printf("%-2%");
 // 	printf("Retour de mon printf :%d\n", ret);
-//     ret_printf = printf("%%");
+//     ret_printf = printf("%-2%");
 // 	printf("Retour du vrai printf :%d\n", ret_printf);
 // 	return (0);
 // }

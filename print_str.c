@@ -70,13 +70,13 @@ int		my_printf_perc(t_params *par)
 
 	ret = 0;
 	i = 1;
-	while (par->flag != '-' && i < par->width)
+	while (par->flag == '-' && i < par->width)
 	{
 		ret += write(1, " ", 1);
 		i++;
 	}
 	ret += write(1, "%", 1);
-	while (par->flag == '-' && i++ < par->width)
+	while (par->flag != '-' && i++ < par->width)
 		ret += write(1, " ", 1);
 	return (ret);
 }

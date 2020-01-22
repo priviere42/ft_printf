@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/17 10:36:00 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/17 16:32:04 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/22 11:48:04 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -25,7 +25,11 @@ int		my_printf_str(va_list my_list, t_params *par)
 	src = va_arg(my_list, char *);
 	ret = 0;
 	nul = ((src == NULL) && par->precision != 0) ? 6 : 0;
-	i = ft_strlen(src) + nul;
+    if (par->precision < (int)ft_strlen(src))
+        i = ft_strlen_prec(src, par->precision); 
+	else
+        i = ft_strlen(src) + nul;
+   // printf("voici i : %i\n", i);
 	while (par->flag != '-' && i++ < par->width)
 		ret += write(1, " ", 1);
 	if (src == NULL)

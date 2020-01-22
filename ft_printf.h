@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/10 15:12:22 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/17 16:28:44 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/22 10:47:55 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -44,7 +44,7 @@ int			my_printf_majhexa(va_list my_list, t_params *par);
 int			my_printf_p(va_list my_list, t_params *par);
 int 		my_printf_str(va_list my_list, t_params *par);
 int 		my_printf_char(va_list my_list, t_params *par);
-int		my_printf_perc(t_params *par);
+int		    my_printf_perc(t_params *par);
 int 		ft_printf(const char *src, ...);
 
 #endif

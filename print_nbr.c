@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/17 10:37:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/17 14:16:49 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/22 16:36:32 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -52,14 +52,15 @@ int my_printf_nbr(va_list my_list, t_params *par)
 	ret = 0;
     num = va_arg(my_list, int);
     number = ft_itoa_base(num, 10);
-	nbr_len = ft_strlen(number);
-	i = (num >= 0)? nbr_len - 1 : nbr_len - 2;
-	while (par->flag == 'a' && nbr_len++ < par->width
-    && par->precision < par->width)
+	nbr_len = (par->precision >= 0 && ft_strlen(number) == 1) ? par->precision : ft_strlen(number);
+	i = (num >= 0)? ft_strlen(number) : ft_strlen(number) - 1;
+    if (ft_strlen(number) == 2 && num < 0 && par->precision >= (int)ft_strlen(number))
+        nbr_len++;
+	while (par->flag == 'a' && nbr_len++ < par->width && par->width > par->precision)
 		ret += write(1, " ", 1);
 	if (!(par->precision == 0 && num == 0) && num < 0)
 		ret += write(1, "-", 1);
-	while (par->precision > 0 && ++i < par->precision && par->flag != '-')
+	while (par->precision > 0 && i++ < par->precision && par->flag != '-')
 		ret += write(1, "0", 1);
 	while (par->precision == -1 && par->flag == '0' && nbr_len++ < par->width)
 		ret += write(1, "0", 1);

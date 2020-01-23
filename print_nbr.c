@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/17 10:37:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/23 16:18:57 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/23 18:45:49 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -41,52 +41,138 @@ int my_printf_unbr(va_list my_list, t_params *par)
 	return (ret);
 }
 
+// int my_printf_nbr(va_list my_list, t_params *par)
+// {
+//     int                 num;
+// 	int                 nbr_len;
+// 	int                 ret;
+//     char                *number;
+//     int                 i;
+
+// 	ret = 0;
+//     num = va_arg(my_list, int);
+//     number = ft_itoa_base(num, 10);
+//     nbr_len = (num >= 0) ? ft_strlen(number) : ft_strlen(number) - 1;
+//  //   printf("nbrlen = %d\n", nbr_len);
+//     if (par->width > par->precision && par->precision <= nbr_len)
+// 	{
+//         if (num >= 0)
+//         {   
+//            // printf("flag : %c, nbrlen : %d, width : %d\n", par->flag, nbr_len, par->width);
+//             while (par->flag == 'a' && nbr_len < par->width)
+// 		    {
+//                 ret += write(1, " ", 1);
+//                 nbr_len++;
+//             }
+//           //  printf("flag : %c, nbrlen : %d, width : %d\n", par->flag, nbr_len, par->width);
+//         }
+//         else
+//             while (par->flag == 'a' && nbr_len < par->width - 1) //je swappe le - avec - 1
+// 		    {
+//                 ret += write(1, " ", 1);
+//                 nbr_len++;
+//             }
+//     }
+//     if (par->width > par->precision && par->precision > nbr_len)
+//  	{
+//         i = 0;
+//         while (par->flag != '-' && i < par->width - par->precision)
+//         {
+//             ret += write(1, " ", 1);
+//             i++;
+//         }
+//     }
+//     if (par->precision > 0)
+//     {
+//         ret += (num < 0) ? write(1, "-", 1) : 0;
+//         while (par->flag != '-' && nbr_len++ < par->precision)
+// 		    ret += write(1, "0", 1);       
+//     }
+//     if (num < 0 && par->precision <= 0)
+//          ret += write(1, "-", 1);
+//     if (num >= 0)
+//     {
+//         while (par->flag == '0' && nbr_len < par->width)
+// 		{    
+//             ret += write(1, "0", 1);
+//             nbr_len++;
+//         }
+//         i = 0;
+//         while (par->flag == '-' && par->precision >= 0 && i++ < par->precision - nbr_len)
+//             ret += write(1, "0", 1);
+//     }
+//     else
+//     {
+//         while (par->flag == '0' && ++nbr_len < par->width)
+// 		    ret += write(1, "0", 1);
+//         i = 0;
+//         while (par->flag == '-' && par->precision >= 0 && i++ < par->precision - nbr_len)
+//             ret += write(1, "0", 1);
+//     }
+//     if (num == 0 && (par->precision == 0 || par->precision == -2))
+//     {
+//      //   printf("flag : %c, nbrlen : %d, width : %d", par->flag, nbr_len, par->width);
+//         while (par->flag == 'a' && nbr_len++ < par->width + 1)
+// 		    ret += write(1, " ", 1);
+//         return (ret);
+//     } 
+//     ret += (num >= 0) ? write(1, number, ft_strlen(number)) : write(1, &number[1], ft_strlen(number) - 1);
+// 	while (par->flag == '-' && ret < par->width)
+// 		ret += write(1, " ", 1);
+//     free(number);
+// 	return (ret);
+// }
+
+int     print_width(t_params *par, char c, int ret, int block_size)
+{
+    int     i;
+
+    i = 0;
+    while (i != par->width - block_size)
+    {
+        ret += write(1, &c, 1);
+        i++;
+    }
+    return ret;
+}
+
+int     calc_block_size(int prec, char *number)
+{
+    int     len_nbr;
+
+    len_nbr = (*number != '-') ? ft_strlen(number) : ft_strlen(number) - 1;
+    if (prec >= len_nbr)
+        return ((*number != '-') ? prec : prec + 1);
+    return (ft_strlen(number));
+}
+
 int my_printf_nbr(va_list my_list, t_params *par)
 {
-    int                 num;
+     int                 num;
 	int                 nbr_len;
 	int                 ret;
-    char                *number;
+    char                *number; 
+    char                c;
+    int                 block_size;
 
-	ret = 0;
     num = va_arg(my_list, int);
     number = ft_itoa_base(num, 10);
+    block_size = calc_block_size(par->precision, number);
     nbr_len = (num >= 0) ? ft_strlen(number) : ft_strlen(number) - 1;
-    if (par->width > par->precision && par->precision <= (int)ft_strlen(number))
-	{
-        if (num >= 0)
-        {    
-            while (par->flag == 'a' && nbr_len++ < par->width)
-		        ret += write(1, " ", 1);
-        }
-        else
-            while (par->flag == 'a' && ++nbr_len < par->width)
-		        ret += write(1, " ", 1);
-    }
-    if (par->width > par->precision && par->precision > (int)ft_strlen(number))
- 	{
-        while (par->flag != '-' && ret < par->width - par->precision)
-            ret += write(1, " ", 1);
-    }
-    if (par->precision > 0)
+    c = (par->flag == '0' && par->precision == -1) ? '0' : ' ';
+    ret = 0;
+    if (par->flag == '-')
     {
-        ret += (num < 0) ? write(1, "-", 1) : 0;
-        while (par->flag != '-' && nbr_len++ < par->precision)
-		    ret += write(1, "0", 1);       
+
+        ret += (num > 0) ? write(1, number, ft_strlen(number)) : write(1, &number[1], ft_strlen(number) - 1);
+        ret += print_width(par, c, ret, block_size);
     }
-    if (num < 0 && par->precision <= 0)
-         ret += write(1, "-", 1);
-    if (num >= 0)
-        while (par->flag == '0' && nbr_len++ < par->width)
-		    ret += write(1, "0", 1);
     else
-       while (par->flag == '0' && ++nbr_len < par->width)
-		    ret += write(1, "0", 1);
-    ret += (num >= 0) ? write(1, number, ft_strlen(number)) : write(1, &number[1], ft_strlen(number) - 1);
-	while (par->flag == '-' && ret < par->width)
-		ret += write(1, " ", 1);
-    free(number);
-	return (ret);
+    {
+        ret += print_width(par, c, ret, block_size);
+        ret += (num > 0) ? write(1, number, ft_strlen(number)) : write(1, &number[1], ft_strlen(number) - 1);
+    }
+    return (ret);
 }
 
 int	my_printf_hexa(va_list my_list, t_params *par)

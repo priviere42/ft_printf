@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/23 16:19:05 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/23 18:45:39 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -124,19 +124,25 @@ int		ft_printf(const char *src, ...)
 	return (ret);
 }
 
-// #include <limits.h>
-// int main()
-// {
-// //	char* tutu = "sa";
-// 	int ret = 0;
-// 	int ret_printf = 0;
+#include <limits.h>
+int main()
+{
+//	char* tutu = "sa";
+	// int ret = 0;
+	// int ret_printf = 0;
 
-//     ret = ft_printf("[%10.1d]\n", 0);
-// 	printf("Retour de mon printf :%d\n", ret);
-//     ret_printf = printf("[%10.1d]\n", 0);
-// 	printf("Retour du vrai printf :%d\n", ret_printf);
-// 	return (0);
-// }
+    // ret = ft_printf("[%3.2i]\n", -2);
+	// printf("Retour de mon printf :%d\n", ret);
+    // ret_printf = printf("[%3.2i]\n", -2);
+	// printf("Retour du vrai printf :%d\n", ret_printf);
+    // ret = ft_printf("[%1.0d]\n", 10);
+	// printf("Retour de mon printf :%d\n", ret);
+    // ret_printf = printf("[%1.0d]\n", 10);
+	// printf("Retour du vrai printf :%d\n", ret_printf);
+    ft_printf("|%12i|\n", 12);
+    printf("|%12i|\n", 12);
+	return (0);
+}
 
 // int main(void)
 // {

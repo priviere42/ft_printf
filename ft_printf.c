@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/22 16:23:47 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/23 16:19:05 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -60,7 +60,9 @@ int		ft_check_flags(va_list my_list, const char *src, int i, t_params *par)
 	}
 	i = ft_check_wildcard(my_list, src, i, par);
 	if ((src[i] == '.' && src[i + 1]))
-		par->precision = ft_atoi(&src[++i]);
+		par->precision = (src[i + 1] >= '0' && src[i + 1] <= '9') ? ft_atoi(&src[++i]) : -2;
+    if (par->precision == -2)
+        return (++i);
 	if ((par->flag != 'a') && src[i + 1] >= '0' && src[i + 1] <= '9'
 	&& par->precision == -1)
 		par->width = ft_atoi(&src[i++]);
@@ -122,16 +124,28 @@ int		ft_printf(const char *src, ...)
 	return (ret);
 }
 
-#include <limits.h>
-int main()
-{
-//	char* tutu = "sa";
-	int ret = 0;
-	int ret_printf = 0;
+// #include <limits.h>
+// int main()
+// {
+// //	char* tutu = "sa";
+// 	int ret = 0;
+// 	int ret_printf = 0;
 
-    ret = ft_printf("[%10.9d]\n", 42);
-	printf("Retour de mon printf :%d\n", ret);
-    ret_printf = printf("[%10.9d]\n", 42);
-	printf("Retour du vrai printf :%d\n", ret_printf);
-	return (0);
-}
+//     ret = ft_printf("[%10.1d]\n", 0);
+// 	printf("Retour de mon printf :%d\n", ret);
+//     ret_printf = printf("[%10.1d]\n", 0);
+// 	printf("Retour du vrai printf :%d\n", ret_printf);
+// 	return (0);
+// }
+
+// int main(void)
+// {
+//     int ret = 0, ret2 = 0;
+
+//     ret = ft_printf("|%8.15d|\n", 42);
+//     ret2 = dprintf(1, "|%8.15d|\n", 42);
+
+//     if (ret != ret2)
+//         dprintf(1, "ko in return\n");
+//     return 0;
+// }

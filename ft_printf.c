@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/23 18:45:39 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/24 12:19:22 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -114,35 +114,32 @@ int		ft_printf(const char *src, ...)
 			else if ((src[i] != '%' &&
 			(src[i] != 's' && src[i] != 'c' && src[i] != 'd' && src[i] != 'i'
 			&& src[i] != 'u' && src[i] != 'x' && src[i] != 'X' && src[i] != 'p')))
-				ret += write(1, &src[i], 1);
+                ret += write(1, &src[i], 1);
 		}
-		else if (src[i] != '%')
-			ret += write(1, &src[i], 1);
+		else if (src[i] != 0 && src[i] != '%')
+            ret += write(1, &src[i], 1);
 		i++;
 		free(par);
 	}
 	return (ret);
 }
 
-#include <limits.h>
-int main()
-{
-//	char* tutu = "sa";
-	// int ret = 0;
-	// int ret_printf = 0;
+// #include <limits.h>
+// int main()
+// {
+// 	int ret = 0;
+// 	int ret_printf = 0;
 
-    // ret = ft_printf("[%3.2i]\n", -2);
-	// printf("Retour de mon printf :%d\n", ret);
-    // ret_printf = printf("[%3.2i]\n", -2);
-	// printf("Retour du vrai printf :%d\n", ret_printf);
-    // ret = ft_printf("[%1.0d]\n", 10);
-	// printf("Retour de mon printf :%d\n", ret);
-    // ret_printf = printf("[%1.0d]\n", 10);
-	// printf("Retour du vrai printf :%d\n", ret_printf);
-    ft_printf("|%12i|\n", 12);
-    printf("|%12i|\n", 12);
-	return (0);
-}
+//     ret = ft_printf("[%1.0i]\n", 0);
+// 	printf("Retour de mon printf :%d\n", ret);
+//     ret_printf = printf("[%1.0i]\n", 0);
+// 	printf("Retour du vrai printf :%d\n", ret_printf);
+//     // ret = ft_printf("[%1.0d]\n", 10);
+// 	// printf("Retour de mon printf :%d\n", ret);
+//     // ret_printf = printf("[%1.0d]\n", 10);
+// 	// printf("Retour du vrai printf :%d\n", ret_printf);
+// 	return (0);
+// }
 
 // int main(void)
 // {

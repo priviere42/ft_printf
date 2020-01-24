@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/17 10:37:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/24 17:25:03 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/24 17:28:32 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -156,17 +156,15 @@ int my_printf_unbr(va_list my_list, t_params *par)
 	int                 ret;
     char                *number; 
     char                c;
-    int                 block_size;
 
     num = va_arg(my_list, unsigned long long);
     number = ft_ulltoa_base(num, 10);
-    block_size = calc_block_size(par->precision, number);
     nbr_len = ft_strlen(number);
     c = (par->flag == '0' && par->precision == -1) ? '0' : ' ';
     ret = 0;
     if (par->flag == 'a')
     {
-        ret += print_width(par, c, block_size);
+        ret += print_width(par, c, calc_block_size(par->precision, number));
         ret += print_prec(par, nbr_len);
         if (num == 0 && par->precision == 0 && par->width > 0)
             ret += write(1, " ", 1);
@@ -187,17 +185,15 @@ int	my_printf_hexa(va_list my_list, t_params *par)
 	int                 ret;
     char                *number; 
     char                c;
-    int                 block_size;
 
     num = va_arg(my_list, unsigned long long);
     number = ft_ulltoa_base(num, 16);
-    block_size = calc_block_size(par->precision, number);
     nbr_len = ft_strlen(number);
     c = (par->flag == '0' && par->precision == -1) ? '0' : ' ';
     ret = 0;
     if (par->flag == 'a')
     {
-        ret += print_width(par, c, block_size);
+        ret += print_width(par, c, calc_block_size(par->precision, number));
         ret += print_prec(par, nbr_len);
         if (num == 0 && par->precision == 0 && par->width > 0)
             ret += write(1, " ", 1);
@@ -217,17 +213,15 @@ int	my_printf_majhexa(va_list my_list, t_params *par)
 	int                 ret;
     char                *number; 
     char                c;
-    int                 block_size;
 
     num = va_arg(my_list, unsigned long long);
     number = ft_ulltoa_base_maj(num, 16);
-    block_size = calc_block_size(par->precision, number);
     nbr_len = ft_strlen(number);
     c = (par->flag == '0' && par->precision == -1) ? '0' : ' ';
     ret = 0;
     if (par->flag == 'a')
     {
-        ret += print_width(par, c, block_size);
+        ret += print_width(par, c, calc_block_size(par->precision, number));
         ret += print_prec(par, nbr_len);
         if (num == 0 && par->precision == 0 && par->width > 0)
             ret += write(1, " ", 1);

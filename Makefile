@@ -3,6 +3,7 @@ SRCS =  ft_itoas_base.c \
 		print_nbr.c		\
 		print_str.c		\
 		manage_flags.c	\
+		print_w_or_p.c	\
 		ft_printf.c
 
 INCLUDES = libft.h
@@ -23,7 +24,7 @@ all:		${NAME}
 
 $(NAME):	${OBJS}
 	ar rc ${NAME} ${OBJS}
-		
+
 clean:
 	${RM} ${OBJS}
 

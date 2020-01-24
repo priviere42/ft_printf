@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/24 16:56:41 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/24 17:55:04 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -30,8 +30,8 @@ int		ft_check_wildcard(va_list my_list, const char *s, int i, t_params *par)
 	}
 	if (s[i] == '.' && s[i + 1] == '*')
 	{
-		par->precision = va_arg(my_list, int);
-		if (par->precision < 0)
+		par->p = va_arg(my_list, int);
+		if (par->p < 0)
 			return (i + 2);
 		i = i + 2;
 	}
@@ -56,11 +56,11 @@ int		ft_check_flags(va_list my_list, const char *src, int i, t_params *par)
 	}
 	i = ft_check_wildcard(my_list, src, i, par);
 	if ((src[i] == '.' && src[i + 1]))
-		par->precision = (src[i + 1] >= '0' && src[i + 1] <= '9') ? ft_atoi(&src[++i]) : -2;
-    if (par->precision == -2)
+		par->p = (src[i + 1] >= '0' && src[i + 1] <= '9') ? ft_atoi(&src[++i]) : -2;
+    if (par->p == -2)
         return (++i);
 	if ((par->flag != 'a') && src[i + 1] >= '0' && src[i + 1] <= '9'
-	&& par->precision == -1)
+	&& par->p == -1)
 		par->width = ft_atoi(&src[i++]);
 	while (src[i] && (src[i] >= '0' && src[i] <= '9'))
 		i++;

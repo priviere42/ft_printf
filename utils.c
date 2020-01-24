@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/17 10:38:55 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/23 10:33:27 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/24 17:55:08 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -68,7 +68,7 @@ int			ft_atoi(const char *str)
 t_params	*ft_init_par(t_params *par)
 {
 	par = malloc(sizeof(t_params) * 1);
-	par->precision = -1;
+	par->p = -1;
 	par->width = -1;
 	par->flag = 'a';
     par->type = 'a';

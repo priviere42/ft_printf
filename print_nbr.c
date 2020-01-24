@@ -6,40 +6,12 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/17 10:37:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/24 16:59:26 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/24 17:25:03 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-// int my_printf_unbr(va_list my_list, t_params *par)
-// {
-//     unsigned long long  num;
-// 	int                 i;
-// 	int                 nbr_len;
-// 	int                 ret;
-//     char                *number;
-
-// 	ret = 0;
-//     num = va_arg(my_list, unsigned long long);
-//     number = ft_ulltoa_base(num, 10);
-// 	nbr_len = ft_strlen(number);
-// 	i = nbr_len - 1;
-// 	while (par->flag == 'a' && nbr_len++ < par->width
-//     && par->precision < par->width)
-// 		ret += write(1, " ", 1);
-// 	while (par->precision > 0 && ++i < par->precision && par->flag != '-')
-// 		ret += write(1, "0", 1);
-// 	while (par->precision == -1 && par->flag == '0' && ++i < par->width)
-// 		ret += write(1, "0", 1);
-// 	if (!(par->precision == 0 && num == 0))
-//     	ret += write(1, number, ft_strlen(number));
-// 	while (par->flag == '-' && nbr_len++ < par->width)
-// 		ret += write(1, " ", 1);
-//     free(number);
-// 	return (ret);
-// }
 
 int     print_prec(t_params *par, int nbr_len)
 {
@@ -85,20 +57,14 @@ int     calc_block_size(int prec, char *number)
     return (ft_strlen(number));
 }
 
-int my_printf_nbr(va_list my_list, t_params *par)
+int manage_flags(t_params *par, int num, char *number, int block_size)
 {
-     int                 num;
-	int                 nbr_len;
+    int                 nbr_len;
 	int                 ret;
-    char                *number; 
     char                c;
-    int                 block_size;
 
-    num = va_arg(my_list, int);
-    number = ft_itoa_base(num, 10);
-    block_size = calc_block_size(par->precision, number);
-    nbr_len = (num >= 0) ? ft_strlen(number) : ft_strlen(number) - 1;
     c = (par->flag == '0' && par->precision == -1) ? '0' : ' ';
+    nbr_len = (num >= 0) ? ft_strlen(number) : ft_strlen(number) - 1;
     ret = 0;
     if (par->flag == '-')
     {
@@ -121,34 +87,17 @@ int my_printf_nbr(va_list my_list, t_params *par)
         if (!((par->precision == 0 || par->precision == -2) && num == 0))
             ret += (num >= 0) ? write(1, number, ft_strlen(number)) : write(1, &number[1], ft_strlen(number) - 1);
     }
-    else
-    {
-        ret += print_width(par, c, block_size);
-        ret += (num < 0) ? write(1, "-", 1) : 0;
-        ret += print_prec(par, nbr_len);
-        if (num == 0 && par->precision == 0 && par->width > 0)
-            ret += write(1, " ", 1);
-        if (!((par->precision == 0 || par->precision == -2) && num == 0))
-            ret += (num >= 0) ? write(1, number, ft_strlen(number)) : write(1, &number[1], ft_strlen(number) - 1);
-    }
-    free(number);
     return (ret);
 }
 
-int my_printf_unbr(va_list my_list, t_params *par)
+int manage_uflags(t_params *par, int num, char *number, int block_size)
 {
-    unsigned long long  num;
-	int                 nbr_len;
+    int                 nbr_len;
 	int                 ret;
-    char                *number; 
     char                c;
-    int                 block_size;
 
-    num = va_arg(my_list, unsigned long long);
-    number = ft_ulltoa_base(num, 10);
-    block_size = calc_block_size(par->precision, number);
-    nbr_len = ft_strlen(number);
     c = (par->flag == '0' && par->precision == -1) ? '0' : ' ';
+    nbr_len = ft_strlen(number);
     ret = 0;
     if (par->flag == '-')
     {
@@ -168,7 +117,54 @@ int my_printf_unbr(va_list my_list, t_params *par)
         if (!((par->precision == 0 || par->precision == -2) && num == 0))
             ret += write(1, number, ft_strlen(number));
     }
+    return (ret);
+}
+
+int my_printf_nbr(va_list my_list, t_params *par)
+{
+    int                 num;
+	int                 nbr_len;
+	int                 ret;
+    char                *number; 
+    char                c;
+
+    num = va_arg(my_list, int);
+    number = ft_itoa_base(num, 10);
+    c = (par->flag == '0' && par->precision == -1) ? '0' : ' ';
+    nbr_len = (num >= 0) ? ft_strlen(number) : ft_strlen(number) - 1;
+    ret = 0;
+    if (par->flag == 'a')
+    {
+        ret += print_width(par, c, calc_block_size(par->precision, number));
+        ret += (num < 0) ? write(1, "-", 1) : 0;
+        ret += print_prec(par, nbr_len);
+        if (num == 0 && par->precision == 0 && par->width > 0)
+            ret += write(1, " ", 1);
+        if (!((par->precision == 0 || par->precision == -2) && num == 0))
+            ret += (num >= 0) ? write(1, number, ft_strlen(number)) : write(1, &number[1], ft_strlen(number) - 1);        
+    }
     else
+       ret += manage_flags(par, num, number, calc_block_size(par->precision, number));
+    free(number);
+    return (ret);
+}
+
+int my_printf_unbr(va_list my_list, t_params *par)
+{
+    unsigned long long  num;
+	int                 nbr_len;
+	int                 ret;
+    char                *number; 
+    char                c;
+    int                 block_size;
+
+    num = va_arg(my_list, unsigned long long);
+    number = ft_ulltoa_base(num, 10);
+    block_size = calc_block_size(par->precision, number);
+    nbr_len = ft_strlen(number);
+    c = (par->flag == '0' && par->precision == -1) ? '0' : ' ';
+    ret = 0;
+    if (par->flag == 'a')
     {
         ret += print_width(par, c, block_size);
         ret += print_prec(par, nbr_len);
@@ -177,6 +173,8 @@ int my_printf_unbr(va_list my_list, t_params *par)
         if (!((par->precision == 0 || par->precision == -2) && num == 0))
             ret += write(1, number, ft_strlen(number));
     }
+    else
+        ret += manage_uflags(par, num, number, calc_block_size(par->precision, number));
     free(number);
     return (ret);
 }
@@ -197,16 +195,7 @@ int	my_printf_hexa(va_list my_list, t_params *par)
     nbr_len = ft_strlen(number);
     c = (par->flag == '0' && par->precision == -1) ? '0' : ' ';
     ret = 0;
-    if (par->flag == '-')
-    {
-        ret += print_prec(par, nbr_len);
-        if (num == 0 && par->precision == 0 && par->width > 0)
-            ret += write(1, " ", 1);
-        if (!((par->precision == 0 || par->precision == -2) && num == 0))
-            ret += write(1, number, ft_strlen(number));
-        ret += print_width(par, c, block_size);
-    }
-    else if (par->flag == '0')
+    if (par->flag == 'a')
     {
         ret += print_width(par, c, block_size);
         ret += print_prec(par, nbr_len);
@@ -216,14 +205,7 @@ int	my_printf_hexa(va_list my_list, t_params *par)
             ret += write(1, number, ft_strlen(number));
     }
     else
-    {
-        ret += print_width(par, c, block_size);
-        ret += print_prec(par, nbr_len);
-        if (num == 0 && par->precision == 0 && par->width > 0)
-            ret += write(1, " ", 1);
-        if (!((par->precision == 0 || par->precision == -2) && num == 0))
-            ret += write(1, number, ft_strlen(number));
-    }
+        ret += manage_uflags(par, num, number, calc_block_size(par->precision, number));
     free(number);
     return (ret);
 }
@@ -243,16 +225,7 @@ int	my_printf_majhexa(va_list my_list, t_params *par)
     nbr_len = ft_strlen(number);
     c = (par->flag == '0' && par->precision == -1) ? '0' : ' ';
     ret = 0;
-    if (par->flag == '-')
-    {
-        ret += print_prec(par, nbr_len);
-        if (num == 0 && par->precision == 0 && par->width > 0)
-            ret += write(1, " ", 1);
-        if (!((par->precision == 0 || par->precision == -2) && num == 0))
-            ret += write(1, number, ft_strlen(number));
-        ret += print_width(par, c, block_size);
-    }
-    else if (par->flag == '0')
+    if (par->flag == 'a')
     {
         ret += print_width(par, c, block_size);
         ret += print_prec(par, nbr_len);
@@ -262,14 +235,7 @@ int	my_printf_majhexa(va_list my_list, t_params *par)
             ret += write(1, number, ft_strlen(number));
     }
     else
-    {
-        ret += print_width(par, c, block_size);
-        ret += print_prec(par, nbr_len);
-        if (num == 0 && par->precision == 0 && par->width > 0)
-            ret += write(1, " ", 1);
-        if (!((par->precision == 0 || par->precision == -2) && num == 0))
-            ret += write(1, number, ft_strlen(number));
-    }
+        ret += manage_uflags(par, num, number, calc_block_size(par->precision, number));
     free(number);
     return (ret);
 }

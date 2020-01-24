@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/24 17:34:44 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/24 18:24:11 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/24 18:30:01 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -45,16 +45,6 @@ int		print_width(t_params *par, char c, int block_size)
 		i++;
 	}
 	return (ret);
-}
-
-int		block(int prec, char *number)
-{
-	int		len_nbr;
-
-	len_nbr = (*number != '-') ? ft_strlen(number) : ft_strlen(number) - 1;
-	if (prec >= len_nbr)
-		return ((*number != '-') ? prec : prec + 1);
-	return (ft_strlen(number));
 }
 
 int		ft_manage_dash(t_params *par, int num, char *number, int block_size)
@@ -114,14 +104,7 @@ int		manage_uflags(t_params *par, int num, char *number, int block_size)
 	nbr_len = ft_strlen(number);
 	ret = 0;
 	if (par->flag == '-')
-	{
-		ret += print_prec(par, nbr_len);
-		if (num == 0 && par->p == 0 && par->width > 0)
-			ret += write(1, " ", 1);
-		if (!((par->p == 0 || par->p == -2) && num == 0))
-			ret += write(1, number, ft_strlen(number));
-		ret += print_width(par, c, block_size);
-	}
+		ret += ft_manage_dash(par, num, number, block_size);
 	else if (par->flag == '0')
 	{
 		ret += print_width(par, c, block_size);

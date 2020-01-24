@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/17 10:38:55 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/24 17:55:08 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/24 18:31:13 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -65,12 +65,22 @@ int			ft_atoi(const char *str)
 	return (a * sign);
 }
 
+int			block(int prec, char *number)
+{
+	int		len_nbr;
+
+	len_nbr = (*number != '-') ? ft_strlen(number) : ft_strlen(number) - 1;
+	if (prec >= len_nbr)
+		return ((*number != '-') ? prec : prec + 1);
+	return (ft_strlen(number));
+}
+
 t_params	*ft_init_par(t_params *par)
 {
 	par = malloc(sizeof(t_params) * 1);
 	par->p = -1;
 	par->width = -1;
 	par->flag = 'a';
-    par->type = 'a';
+	par->type = 'a';
 	return (par);
 }

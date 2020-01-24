@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/24 12:19:22 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/24 16:03:13 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -32,11 +32,7 @@ int		ft_check_wildcard(va_list my_list, const char *s, int i, t_params *par)
 	{
 		par->precision = va_arg(my_list, int);
 		if (par->precision < 0)
-		{
-			par->precision = -1 * par->precision;
-			if (par->width == -1)
-				par->flag = '-';
-		}
+			return (i + 2);
 		i = i + 2;
 	}
 	return (i);
@@ -88,7 +84,7 @@ int		ft_printf(const char *src, ...)
 		if (src[i] != 0 && i != 0 && src[i - 1] == '%')
 		{
 			i = ft_check_flags(my_list, src, i, par);
-		//	printf("\npar->width = %d, par->flag = %c, par->precision = %d, index = %d, src[i] = %c\n", par->width, par->flag, par->precision, i, src[i]);
+			//printf("\npar->width = %d, par->flag = %c, par->precision = %d, index = %d, src[i] = %c\n", par->width, par->flag, par->precision, i, src[i]);
 			if (src[i] == 'd' || src[i] == 'i')
 				ret += my_printf_nbr(my_list, par);
 			if (src[i] == 's')
@@ -124,22 +120,22 @@ int		ft_printf(const char *src, ...)
 	return (ret);
 }
 
-// #include <limits.h>
-// int main()
-// {
-// 	int ret = 0;
-// 	int ret_printf = 0;
+#include <limits.h>
+int main()
+{
+	int ret = 0;
+	int ret_printf = 0;
 
-//     ret = ft_printf("[%1.0i]\n", 0);
-// 	printf("Retour de mon printf :%d\n", ret);
-//     ret_printf = printf("[%1.0i]\n", 0);
-// 	printf("Retour du vrai printf :%d\n", ret_printf);
-//     // ret = ft_printf("[%1.0d]\n", 10);
-// 	// printf("Retour de mon printf :%d\n", ret);
-//     // ret_printf = printf("[%1.0d]\n", 10);
-// 	// printf("Retour du vrai printf :%d\n", ret_printf);
-// 	return (0);
-// }
+    ret = ft_printf("[%.*i]\n", 10, 42);
+	printf("Retour de mon printf :%d\n", ret);
+    ret_printf = printf("[%.*i]\n", 10, 42);
+	printf("Retour du vrai printf :%d\n", ret_printf);
+    // ret = ft_printf("[%1.0d]\n", 10);
+	// printf("Retour de mon printf :%d\n", ret);
+    // ret_printf = printf("[%1.0d]\n", 10);
+	// printf("Retour du vrai printf :%d\n", ret_printf);
+	return (0);
+}
 
 // int main(void)
 // {

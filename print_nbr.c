@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/17 10:37:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/24 12:19:38 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/24 14:07:06 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -186,21 +186,31 @@ int my_printf_nbr(va_list my_list, t_params *par)
     {
         ret += (num < 0) ? write(1, "-", 1) : 0;
         ret += print_prec(par, nbr_len);
-        ret += (num >= 0) ? write(1, number, ft_strlen(number)) : write(1, &number[1], ft_strlen(number) - 1);
+        if (num == 0 && par->precision == 0 && par->width > 0)
+            ret += write(1, " ", 1);
+        if (!(par->precision == 0 && num == 0))
+            ret += (num >= 0) ? write(1, number, ft_strlen(number)) : write(1, &number[1], ft_strlen(number) - 1);
         ret += print_width(par, c, block_size);
     }
     else if (par->flag == '0')
     {
-        ret += (num < 0) ? write(1, "-", 1) : 0;
-        ret += print_prec(par, nbr_len);
+        ret += (num < 0 && par->precision < 0 && par->precision != -2) ? write(1, "-", 1) : 0;
         ret += print_width(par, c, block_size);
-        ret += (num >= 0) ? write(1, number, ft_strlen(number)) : write(1, &number[1], ft_strlen(number) - 1);
+        ret += (num < 0 && (par->precision >= 0 || par->precision == -2)) ? write(1, "-", 1) : 0;
+        ret += print_prec(par, nbr_len);
+        if (num == 0 && par->precision == 0 && par->width > 0)
+            ret += write(1, " ", 1);
+        if (!(par->precision == 0 && num == 0))
+            ret += (num >= 0) ? write(1, number, ft_strlen(number)) : write(1, &number[1], ft_strlen(number) - 1);
     }
     else
     {
         ret += print_width(par, c, block_size);
         ret += (num < 0) ? write(1, "-", 1) : 0;
         ret += print_prec(par, nbr_len);
+    //    printf("\npar->width = %d, par->flag = %c, par->precision = %d, num = %d\n", par->width, par->flag, par->precision, num);
+        if (num == 0 && par->precision == 0 && par->width > 0)
+            ret += write(1, " ", 1);
         if (!(par->precision == 0 && num == 0))
             ret += (num >= 0) ? write(1, number, ft_strlen(number)) : write(1, &number[1], ft_strlen(number) - 1);
     }

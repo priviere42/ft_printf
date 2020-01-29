@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/10 15:12:22 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/29 10:07:03 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/29 16:10:13 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -31,6 +31,7 @@ typedef struct	s_params
 int					ft_strlen_prec(char *src, int precision);
 int					ft_atoi(const char *str);
 size_t				ft_strlen(const char *s);
+char				*ft_strchr(const char *s, int c);
 char				*ft_strdup(const char *s1);
 long long			ft_pow(long long nb, long long pow);
 unsigned long long	ft_pow_ull(unsigned long long nb, unsigned long long p);

@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/29 11:35:57 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/29 16:18:44 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -86,23 +86,15 @@ int		treat_flag(const char *src, int i, va_list my_list, t_params *par)
 		ret += my_printf_hexa(my_list, par);
 	if (src[i] == 'p')
 		ret += my_printf_p(my_list, par);
-	if (src[i] == '%')
-	{
-		par->type = '%';
-		ret += my_printf_perc(par);
-		if (src[i + 1] && src[i + 1] == '%')
-			i++;
-	}
 	return (ret);
 }
 
-int		check_and_treat(va_list ml, t_params *par, const char *s, int i)
+int		check_and_treat(const char *s, int i, t_params *par)
 {
 	int ret;
 
 	ret = 0;
-	ret += treat_flag(s, i, ml, par);
-	if ((s[i] != '%' && (s[i] != 's' && s[i] != 'c' && s[i] != 'd' && s[i] != 'i' && s[i] != 'u' && s[i] != 'x' && s[i] != 'X' && s[i] != 'p')))
+	if ((s[i] != '%' && (s[i] != 's' && s[i] != 'c' && s[i] != 'd' && s[i] != 'i' && s[i] != 'u' && s[i] != 'x' && s[i] != 'X' && s[i] != 'p')) || par->type == '%')
 		ret += write(1, &s[i], 1);
 	return (ret);
 }
@@ -121,11 +113,26 @@ int		ft_printf(const char *s, ...)
 	{
 		par = ft_init_par(par);
 		if (s[i] != 0 && i != 0 && s[i - 1] == '%')
-		{	
+		{
 			i = ft_check_flags(my_list, s, i, par);
-			ret += check_and_treat(my_list, par, s, i);
+			ret += treat_flag(s, i, my_list, par);
+	//		printf("\npar->width = %d, par->flag = %c, par->precision = %d, par->type = %c, index = %i\n", par->width, par->flag, par->p, par->type, i);
+			if (s[i] == '%')
+			{
+				par->type = '%';
+				ret += my_printf_perc(par);
+				if (s[i + 1] && s[i + 1] == '%')
+					i++;
+				if (s[i + 1] == 's' || s[i + 1] == 'c' || s[i + 1] == 'd' || s[i + 1] == 'i' || s[i + 1] == 'u' || s[i + 1] == 'p' || s[i + 1] == 'x' || s[i + 1] == 'X')
+				{
+					ret += write(1, &s[i + 1], 1);
+					i++;
+				}
+			}
+			if (par->type != '%')
+				ret += check_and_treat(s, i, par);
 		}
-		else if (s[i] != 0 && s[i] != '%')
+		else if ((s[i] != 0 && s[i] != '%') || par->type == '%')
 			ret += write(1, &s[i], 1);
 		i++;
 		free(par);
@@ -140,9 +147,9 @@ int		ft_printf(const char *s, ...)
 // 	int ret = 0;
 // 	int ret_printf = 0;
 
-//     ret = ft_printf("[%--*d]\n", -42, -42);
+//     ret = ft_printf("%%%%p::[%010d]\n", -8473);
 // 	printf("Retour de mon printf :%d\n", ret);
-//     ret_printf = printf("[%--*d]\n", -42, -42);
+//     ret_printf = printf("%%%%p::[%010d]\n", -8473);
 // 	printf("Retour du vrai printf :%d\n", ret_printf);
 //     // ret = ft_printf("[%1.0d]\n", 10);
 // 	// printf("Retour de mon printf :%d\n", ret);

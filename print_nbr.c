@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/17 10:37:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/24 18:10:52 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/29 17:24:03 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -44,13 +44,13 @@ int		my_printf_nbr(va_list my_list, t_params *par)
 
 int		my_printf_unbr(va_list my_list, t_params *par)
 {
-	unsigned long long	num;
+	unsigned int		num;
 	int					nbr_len;
 	int					ret;
 	char				*number;
 	char				c;
 
-	num = va_arg(my_list, unsigned long long);
+	num = va_arg(my_list, unsigned int);
 	number = ft_ulltoa_base(num, 10);
 	nbr_len = ft_strlen(number);
 	c = (par->flag == '0' && par->p == -1) ? '0' : ' ';
@@ -72,14 +72,16 @@ int		my_printf_unbr(va_list my_list, t_params *par)
 
 int		my_printf_hexa(va_list my_list, t_params *par)
 {
-	unsigned long long	num;
+	unsigned int		num;
 	int					nbr_len;
 	int					ret;
 	char				*number;
 	char				c;
 
-	num = va_arg(my_list, unsigned long long);
-	number = ft_ulltoa_base(num, 16);
+	num = va_arg(my_list, unsigned int);
+	//dprintf(1, "NUM = %d\n", num);
+	number = ft_lltoa_base(num, 16);
+	//	dprintf(1, "NUMBER = %s\n", number);
 	nbr_len = ft_strlen(number);
 	c = (par->flag == '0' && par->p == -1) ? '0' : ' ';
 	ret = 0;
@@ -100,14 +102,14 @@ int		my_printf_hexa(va_list my_list, t_params *par)
 
 int		my_printf_majhexa(va_list my_list, t_params *par)
 {
-	unsigned long long	num;
+	unsigned int		num;
 	int					nbr_len;
 	int					ret;
 	char				*number;
 	char				c;
 
-	num = va_arg(my_list, unsigned long long);
-	number = ft_ulltoa_base_maj(num, 16);
+	num = va_arg(my_list, unsigned int);
+	number = ft_lltoa_base_maj(num, 16);
 	nbr_len = ft_strlen(number);
 	c = (par->flag == '0' && par->p == -1) ? '0' : ' ';
 	ret = 0;

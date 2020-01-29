@@ -6,25 +6,12 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/17 10:38:55 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/24 18:42:11 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/29 10:58:07 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-size_t		ft_strlen(const char *s)
-{
-	int i;
-
-	i = 0;
-	if (s)
-	{
-		while (s[i] != '\0')
-			i++;
-	}
-	return (i);
-}
 
 int			ft_strlen_prec(char *src, int precision)
 {
@@ -40,29 +27,20 @@ int			ft_strlen_prec(char *src, int precision)
 	return (i);
 }
 
-int			ft_atoi(const char *str)
+long long				ft_pow(long long nb, long long pow)
 {
-	long	i;
-	long	a;
-	int		sign;
+	if (pow == 0)
+		return (1);
+	else
+		return (nb * ft_pow(nb, pow - 1));
+}
 
-	sign = 1;
-	i = 0;
-	a = 0;
-	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
-		i++;
-	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
-			sign = -1;
-		i++;
-	}
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		a = a * 10 + (str[i] - '0');
-		i++;
-	}
-	return (a * sign);
+unsigned long long		ft_pow_ull(unsigned long long nb, unsigned long long p)
+{
+	if (p == 0)
+		return (1);
+	else
+		return (nb * ft_pow_ull(nb, p - 1));
 }
 
 t_params	*ft_init_par(t_params *par)

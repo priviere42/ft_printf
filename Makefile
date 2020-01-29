@@ -19,17 +19,23 @@ CFLAGS = -Wall -Werror -Wextra
 
 all:		${NAME}
 
-%.o: 	%.c ${INCLUDES}
-	${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
+lib: 	
+			make -C libft all
 
-$(NAME):	${OBJS}
-	ar rc ${NAME} ${OBJS}
+libcl:  
+			make -C libft clean
 
-clean:
-	${RM} ${OBJS}
+%.o: 		%.c ${INCLUDES}
+			${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
+
+$(NAME):	lib ${OBJS}
+			ar rc ${NAME} ${OBJS}
+
+clean:		libcl
+			${RM} ${OBJS}
 
 fclean:		clean
-	${RM} ${NAME}
+			${RM} ${NAME}
 
 re:			fclean all
 

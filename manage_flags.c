@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/24 17:34:44 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/24 18:43:59 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/29 10:08:52 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -61,52 +61,52 @@ int		ft_dash(t_params *par, int num, char *number, int block_size)
 	return (ret);
 }
 
-int		manage_flags(t_params *par, int num, char *number, int block_size)
+int			manage_flags(t_params *par, int num, char *n, int block)
 {
 	int		nbr_len;
 	int		ret;
 	char	c;
 
 	c = (par->flag == '0' && par->p == -1) ? '0' : ' ';
-	nbr_len = (num >= 0) ? ft_strlen(number) : ft_strlen(number) - 1;
+	nbr_len = (num >= 0) ? ft_strlen(n) : ft_strlen(n) - 1;
 	ret = 0;
 	if (par->flag == '-')
-		ret += ft_dash(par, num, number, block_size);
+		ret += ft_dash(par, num, n, block);
 	else if (par->flag == '0')
 	{
 		ret += (num < 0 && par->p < 0 && par->p != -2) ? write(1, "-", 1) : 0;
-		ret += print_width(par, c, block_size);
+		ret += print_width(par, c, block);
 		ret += (num < 0 && (par->p >= 0 || par->p == -2)) ?
 			write(1, "-", 1) : 0;
 		ret += print_prec(par, nbr_len);
 		if (num == 0 && par->p == 0 && par->width > 0)
 			ret += write(1, " ", 1);
 		if (!((par->p == 0 || par->p == -2) && num == 0))
-			ret += (num >= 0) ? write(1, number, ft_strlen(number)) :
-			write(1, &number[1], ft_strlen(number) - 1);
+			ret += (num >= 0) ? write(1, n, ft_strlen(n)) :
+			write(1, &n[1], ft_strlen(n) - 1);
 	}
 	return (ret);
 }
 
-int		manage_uflags(t_params *par, int num, char *number, int block_size)
+int			manage_uflags(t_params *par, int num, char *n, int block)
 {
 	int		nbr_len;
 	int		ret;
 	char	c;
 
 	c = (par->flag == '0' && par->p == -1) ? '0' : ' ';
-	nbr_len = ft_strlen(number);
+	nbr_len = ft_strlen(n);
 	ret = 0;
 	if (par->flag == '-')
-		ret += ft_udash(par, num, number, block_size);
+		ret += ft_udash(par, num, n, block);
 	else if (par->flag == '0')
 	{
-		ret += print_width(par, c, block_size);
+		ret += print_width(par, c, block);
 		ret += print_prec(par, nbr_len);
 		if (num == 0 && par->p == 0 && par->width > 0)
 			ret += write(1, " ", 1);
 		if (!((par->p == 0 || par->p == -2) && num == 0))
-			ret += write(1, number, ft_strlen(number));
+			ret += write(1, n, ft_strlen(n));
 	}
 	return (ret);
 }

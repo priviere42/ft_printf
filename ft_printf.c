@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/24 17:55:04 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/29 11:35:57 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -38,82 +38,95 @@ int		ft_check_wildcard(va_list my_list, const char *s, int i, t_params *par)
 	return (i);
 }
 
-int		ft_check_flags(va_list my_list, const char *src, int i, t_params *par)
+int		ft_check_flags(va_list my_list, const char *s, int i, t_params *par)
 {
-	if (src[i] == '0' || src[i] == '-')
+	if (s[i] == '0' || s[i] == '-')
 	{
-		par->flag = (src[i] == '0') && (src[i + 1] == '-') ? '-' : src[i];
-		while (((src[i] == '0') && (src[i + 1] == '-'))
-		|| ((src[i] == '-') && (src[i + 1] == '0')) || ((src[i] == '-') && (src[i + 1] == '-')))
+		par->flag = (s[i] == '0') && (s[i + 1] == '-') ? '-' : s[i];
+		while (((s[i] == '0') && (s[i + 1] == '-'))
+		|| ((s[i] == '-') && ((s[i + 1] == '0') || (s[i + 1] == '-'))))
 			i++;
 		i++;
 	}
-	if (src[i] >= '0' && src[i] <= '9')
+	if (s[i] >= '0' && s[i] <= '9')
 	{
-		par->width = ft_atoi(&src[i]);
-		while (src[i] && (src[i] >= '0' && src[i] <= '9'))
+		par->width = ft_atoi(&s[i]);
+		while (s[i] && (s[i] >= '0' && s[i] <= '9'))
 			i++;
 	}
-	i = ft_check_wildcard(my_list, src, i, par);
-	if ((src[i] == '.' && src[i + 1]))
-		par->p = (src[i + 1] >= '0' && src[i + 1] <= '9') ? ft_atoi(&src[++i]) : -2;
-    if (par->p == -2)
-        return (++i);
-	if ((par->flag != 'a') && src[i + 1] >= '0' && src[i + 1] <= '9'
+	i = ft_check_wildcard(my_list, s, i, par);
+	if ((s[i] == '.' && s[i + 1]))
+		par->p = (s[i + 1] >= '0' && s[i + 1] <= '9') ? ft_atoi(&s[++i]) : -2;
+	if (par->p == -2)
+		return (++i);
+	if ((par->flag != 'a') && s[i + 1] >= '0' && s[i + 1] <= '9'
 	&& par->p == -1)
-		par->width = ft_atoi(&src[i++]);
-	while (src[i] && (src[i] >= '0' && src[i] <= '9'))
+		par->width = ft_atoi(&s[i++]);
+	while (s[i] && (s[i] >= '0' && s[i] <= '9'))
 		i++;
-//	printf("\npar->width = %d, par->flag = %c, par->precision = %d, index = %i\n", par->width, par->flag, par->precision, i);
 	return (i);
 }
 
-int		ft_printf(const char *src, ...)
+int		treat_flag(const char *src, int i, va_list my_list, t_params *par)
 {
-	va_list my_list;
-	t_params *par;
-	int i;
 	int ret;
 
 	ret = 0;
-	va_start(my_list, src);
+	if (src[i] == 'd' || src[i] == 'i')
+		ret += my_printf_nbr(my_list, par);
+	if (src[i] == 's')
+		ret += my_printf_str(my_list, par);
+	if (src[i] == 'c')
+		ret += my_printf_char(my_list, par);
+	if (src[i] == 'u')
+		ret += my_printf_unbr(my_list, par);
+	if (src[i] == 'X')
+		ret += my_printf_majhexa(my_list, par);
+	if (src[i] == 'x')
+		ret += my_printf_hexa(my_list, par);
+	if (src[i] == 'p')
+		ret += my_printf_p(my_list, par);
+	if (src[i] == '%')
+	{
+		par->type = '%';
+		ret += my_printf_perc(par);
+		if (src[i + 1] && src[i + 1] == '%')
+			i++;
+	}
+	return (ret);
+}
+
+int		check_and_treat(va_list ml, t_params *par, const char *s, int i)
+{
+	int ret;
+
+	ret = 0;
+	ret += treat_flag(s, i, ml, par);
+	if ((s[i] != '%' && (s[i] != 's' && s[i] != 'c' && s[i] != 'd' && s[i] != 'i' && s[i] != 'u' && s[i] != 'x' && s[i] != 'X' && s[i] != 'p')))
+		ret += write(1, &s[i], 1);
+	return (ret);
+}
+
+int		ft_printf(const char *s, ...)
+{
+	va_list		my_list;
+	t_params	*par;
+	int			i;
+	int			ret;
+
+	ret = 0;
 	i = 0;
-	while (src[i])
+	va_start(my_list, s);
+	while (s[i])
 	{
 		par = ft_init_par(par);
-		if (src[i] != 0 && i != 0 && src[i - 1] == '%')
-		{
-			i = ft_check_flags(my_list, src, i, par);
-			//printf("\npar->width = %d, par->flag = %c, par->precision = %d, index = %d, src[i] = %c\n", par->width, par->flag, par->precision, i, src[i]);
-			if (src[i] == 'd' || src[i] == 'i')
-				ret += my_printf_nbr(my_list, par);
-			if (src[i] == 's')
-				ret += my_printf_str(my_list, par);
-			if (src[i] == 'c')
-				ret += my_printf_char(my_list, par);
-			if (src[i] == 'u')
-				ret += my_printf_unbr(my_list, par);
-			if (src[i] == 'X')
-				ret += my_printf_majhexa(my_list, par);
-			if (src[i] == 'x')
-				ret += my_printf_hexa(my_list, par);
-			if (src[i] == 'p')
-				ret += my_printf_p(my_list, par);
-			if (src[i] == '%')
-			{
-				par->type = '%';
-				ret += my_printf_perc(par);
-			//	write(1, "&src[i + 1]\n", 2);
-				if (src[i + 1] && src[i + 1] == '%')
-					i++;
-			}
-			else if ((src[i] != '%' &&
-			(src[i] != 's' && src[i] != 'c' && src[i] != 'd' && src[i] != 'i'
-			&& src[i] != 'u' && src[i] != 'x' && src[i] != 'X' && src[i] != 'p')))
-                ret += write(1, &src[i], 1);
+		if (s[i] != 0 && i != 0 && s[i - 1] == '%')
+		{	
+			i = ft_check_flags(my_list, s, i, par);
+			ret += check_and_treat(my_list, par, s, i);
 		}
-		else if (src[i] != 0 && src[i] != '%')
-            ret += write(1, &src[i], 1);
+		else if (s[i] != 0 && s[i] != '%')
+			ret += write(1, &s[i], 1);
 		i++;
 		free(par);
 	}

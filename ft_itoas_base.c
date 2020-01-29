@@ -6,34 +6,17 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/08 18:29:19 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/17 16:29:55 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/29 10:04:32 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "ft_printf.h"
-
-long long				ft_pow(long long nb, long long pow)
-{
-	if (pow == 0)
-		return (1);
-	else
-		return (nb * ft_pow(nb, pow - 1));
-}
-
-unsigned long long		ft_pow_ull(unsigned long long nb, unsigned long long pow)
-{
-	if (pow == 0)
-		return (1);
-	else
-		return (nb * ft_pow_ull(nb, pow - 1));
-}
 
 char					*ft_itoa_base(long long value, long long base)
 {
 	long long			i;
-	char		        *nbr;
+	char				*nbr;
 	long long			neg;
 
 	i = 1;

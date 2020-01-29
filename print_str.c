@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/17 10:36:00 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/29 16:32:46 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/29 17:47:05 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -27,8 +27,10 @@ int		my_printf_str(va_list my_list, t_params *par)
 	nul = ((src == NULL) && par->p != 0) ? 6 : 0;
 	if (0 <= par->p && par->p < (int)ft_strlen(src))
 		i = ft_strlen_prec(src, par->p);
+	else if (nul == 6)
+		i = ft_strlen(src) + ft_strlen_prec("(null)", par->p);
 	else
-		i = ft_strlen(src) + nul;
+		i = ft_strlen(src);
 	while (par->flag != '-' && i++ < par->width)
 		ret += write(1, " ", 1);
 	if (src == NULL)

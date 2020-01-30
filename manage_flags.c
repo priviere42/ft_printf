@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/24 17:34:44 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/29 10:08:52 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/30 17:21:17 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -61,7 +61,7 @@ int		ft_dash(t_params *par, int num, char *number, int block_size)
 	return (ret);
 }
 
-int			manage_flags(t_params *par, int num, char *n, int block)
+int		manage_flags(t_params *par, int num, char *n, int block)
 {
 	int		nbr_len;
 	int		ret;
@@ -88,7 +88,7 @@ int			manage_flags(t_params *par, int num, char *n, int block)
 	return (ret);
 }
 
-int			manage_uflags(t_params *par, int num, char *n, int block)
+int		manage_uflags(t_params *par, int num, char *n, int block)
 {
 	int		nbr_len;
 	int		ret;

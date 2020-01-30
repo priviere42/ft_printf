@@ -6,13 +6,13 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/10 15:12:22 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/30 11:33:43 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/30 16:31:33 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 
 # include <string.h>
 # include <stdlib.h>
@@ -20,19 +20,26 @@
 # include <stdio.h>
 # include <stdarg.h>
 
-typedef struct	s_params
+typedef struct		s_params
 {
 	char		flag;
 	int			width;
 	int			p;
 	char		type;
-}				t_params;
+}					t_params;
 
 int					ft_strlen_prec(char *src, int precision);
 int					ft_atoi(const char *str);
 size_t				ft_strlen(const char *s);
-char				*ft_strchr(const char *s, int c);
-char				*ft_strdup(const char *s1);
+int					ft_check_wildcard(va_list my_list, const char *s,
+					int i, t_params *par);
+int					ft_check_flags(va_list my_list, const char *s,
+					int i, t_params *par);
+int					treat_flag(const char *src, int i,
+					va_list my_list, t_params *par);
+int					check_and_treat(const char *s, int i, t_params *par);
+int					*my_fct(t_params *par, va_list my_list,
+					const char *s, int *r);
 long long			ft_pow(long long nb, long long pow);
 unsigned long long	ft_pow_ull(unsigned long long nb, unsigned long long p);
 t_params			*ft_init_par(t_params *par);

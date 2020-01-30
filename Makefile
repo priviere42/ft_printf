@@ -4,6 +4,7 @@ SRCS =  ft_itoas_base.c \
 		print_str.c		\
 		manage_flags.c	\
 		print_w_or_p.c	\
+		ft_printf_utils.c \
 		ft_printf.c
 
 INCLUDES = libft.h

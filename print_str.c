@@ -6,30 +6,38 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/17 10:36:00 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/30 14:00:49 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/30 16:46:06 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		my_printf_str(va_list my_list, t_params *par)
+int		ft_get_i(char *src, t_params *par)
 {
-	char	*src;
-	int		i;
-	int		ret;
-	int		nul;
+	int nul;
+	int i;
 
-	src = va_arg(my_list, char *);
-	if (par->p == -2 && src != NULL)
-		return (0);
-	ret = 0;
 	nul = ((src == NULL) && par->p != 0) ? 6 : 0;
 	if (0 <= par->p && par->p < (int)ft_strlen(src))
 		i = ft_strlen_prec(src, par->p);
 	else
 		i = (nul == 6 && (par->p >= 0 || par->p == -2)) ?
 		ft_strlen(src) + ft_strlen_prec("(null)", par->p) : ft_strlen(src) + nul;
+	return (i);
+}
+
+int		my_printf_str(va_list my_list, t_params *par)
+{
+	char	*src;
+	int		i;
+	int		ret;
+
+	src = va_arg(my_list, char *);
+	if (par->p == -2 && src != NULL)
+		return (0);
+	ret = 0;
+	i = ft_get_i(src, par);
 	while (par->flag != '-' && i++ < par->width)
 		ret += write(1, " ", 1);
 	if (src == NULL)

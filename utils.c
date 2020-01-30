@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/17 10:38:55 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/29 14:25:43 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/30 13:52:33 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,6 +21,8 @@ int			ft_strlen_prec(char *src, int precision)
 	if (precision >= 0)
 		while (src[i] && i < precision)
 			i++;
+	else if (precision == -2)
+		return (0);
 	else
 		while (src[i])
 			i++;

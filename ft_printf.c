@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/30 13:24:45 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/30 14:07:35 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -126,7 +126,7 @@ int		ft_printf(const char *s, ...)
 				ret += my_printf_perc(par);
 				if (s[i + 1] && s[i + 1] == '%')
 					i++;
-				if (s[i + 1] == 's' || s[i + 1] == 'c' || s[i + 1] == 'd' || s[i + 1] == 'i' || s[i + 1] == 'u' || s[i + 1] == 'p' || s[i + 1] == 'x' || s[i + 1] == 'X')
+				if (s[i + 1] == 's' || s[i + 1] == 'c' || s[i + 1] == 'd' || s[i + 1] == 'i' || s[i + 1] == 'u' || s[i + 1] == 'p' || s[i + 1] == 'x' || s[i + 1] == 'X' || s[i + 1] == '*')
 				{
 					ret += write(1, &s[i + 1], 1);
 					i++;
@@ -143,26 +143,26 @@ int		ft_printf(const char *s, ...)
 	return (ret);
 }
 
-// #include <limits.h>
-// int main()
-// {
-//     //char *tutu = "fast";
-// 	int ret = 0;
-// 	int ret_printf = 0;
+#include <limits.h>
+int main()
+{
+    //char *tutu = "fast";
+	int ret = 0;
+	int ret_printf = 0;
 
-//     ret =   	ft_printf("[%10x]\n", 0);
-// 	printf("Retour de mon printf :%d\n", ret);
+    ret =   	ft_printf("00000-000002%%");
+	printf("Retour de mon printf :%d\n", ret);
 
-//     ret_printf =  printf("[%10x]\n", 0);
-// 	printf("Retour du vrai printf :%d\n", ret_printf);
+    ret_printf =  printf("00000-000002%%");
+	printf("Retour du vrai printf :%d\n", ret_printf);
 
 
-//     // ret = ft_printf("[%1.0d]\n", 10);
-// 	// printf("Retour de mon printf :%d\n", ret);
-//     // ret_printf = printf("[%1.0d]\n", 10);
-// 	// printf("Retour du vrai printf :%d\n", ret_printf);
-// 	return (0);
-// }
+    // ret = ft_printf("[%1.0d]\n", 10);
+	// printf("Retour de mon printf :%d\n", ret);
+    // ret_printf = printf("[%1.0d]\n", 10);
+	// printf("Retour du vrai printf :%d\n", ret_printf);
+	return (0);
+}
 
 // int main(void)
 // {

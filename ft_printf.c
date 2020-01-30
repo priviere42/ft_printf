@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/29 17:43:17 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/30 12:02:11 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -94,7 +94,10 @@ int		check_and_treat(const char *s, int i, t_params *par)
 	int ret;
 
 	ret = 0;
-	if ((s[i] != '%' && (s[i] != 's' && s[i] != 'c' && s[i] != 'd' && s[i] != 'i' && s[i] != 'u' && s[i] != 'x' && s[i] != 'X' && s[i] != 'p')) || par->type == '%')
+	if ((s[i] != '%' && (s[i] != 's' && s[i] != 'c' &&
+	s[i] != 'd' && s[i] != 'i' && s[i] != 'u' &&
+	s[i] != 'x' && s[i] != 'X' && s[i] != 'p'))
+	|| par->type == '%')
 		ret += write(1, &s[i], 1);
 	return (ret);
 }
@@ -143,14 +146,14 @@ int		ft_printf(const char *s, ...)
 // #include <limits.h>
 // int main()
 // {
-//    // char *tutu = NULL;
+//     //char *tutu = "fast";
 // 	int ret = 0;
 // 	int ret_printf = 0;
 
-//     ret =   	ft_printf("%50.5s\n", NULL);
+//     ret =   	ft_printf("[%10.x]\n", 0);
 // 	printf("Retour de mon printf :%d\n", ret);
 
-//     ret_printf =  		printf("%50.5s\n", NULL);
+//     ret_printf =  printf("[%10.x]\n", 0);
 // 	printf("Retour du vrai printf :%d\n", ret_printf);
 
 

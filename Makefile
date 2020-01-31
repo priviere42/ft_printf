@@ -8,7 +8,7 @@ SRCS =  ft_itoas_base.c \
 		ft_printf_utils.c \
 		ft_printf.c
 
-INCLUDES = libft.h
+INCLUDES = ft_printf.h
 
 OBJS = ${SRCS:.c=.o}
 

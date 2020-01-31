@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/24 18:38:36 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/24 18:44:59 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/31 15:13:39 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -37,9 +37,9 @@ int		print_width(t_params *par, char c, int block_size)
 
 	ret = 0;
 	i = 0;
-	if (par->width < block_size)
+	if (par->w < block_size)
 		return (0);
-	while (i != par->width - block_size)
+	while (i != par->w - block_size)
 	{
 		ret += write(1, &c, 1);
 		i++;

@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/30 16:17:53 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/30 16:30:37 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/31 15:13:42 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,11 +21,11 @@ int		ft_check_wildcard(va_list my_list, const char *s, int i, t_params *par)
 	{
 		if ((num = va_arg(my_list, int)) < 0)
 		{
-			par->width = -1 * num;
+			par->w = -1 * num;
 			par->flag = '-';
 		}
 		else
-			par->width = num;
+			par->w = num;
 		i++;
 	}
 	if (s[i] == '.' && s[i + 1] == '*')
@@ -50,7 +50,7 @@ int		ft_check_flags(va_list my_list, const char *s, int i, t_params *par)
 	}
 	if (s[i] >= '0' && s[i] <= '9')
 	{
-		par->width = ft_atoi(&s[i]);
+		par->w = ft_atoi(&s[i]);
 		while (s[i] && (s[i] >= '0' && s[i] <= '9'))
 			i++;
 	}
@@ -61,7 +61,7 @@ int		ft_check_flags(va_list my_list, const char *s, int i, t_params *par)
 		return (++i);
 	if ((par->flag != 'a') && s[i + 1] >= '0' && s[i + 1] <= '9'
 	&& par->p == -1)
-		par->width = ft_atoi(&s[i++]);
+		par->w = ft_atoi(&s[i++]);
 	while (s[i] && (s[i] >= '0' && s[i] <= '9'))
 		i++;
 	return (i);

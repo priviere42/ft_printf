@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/17 10:37:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/31 10:48:37 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/31 15:18:42 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -29,10 +29,11 @@ int		my_printf_nbr(va_list my_list, t_params *par)
 	if (par->flag == 'a')
 	{
 		ret += print_width(par, c, block(par->p, nbr));
+	//	printf("par->p : %d, par->w : %d, num : %d\n", par->p, par->w, num);
+		ret += (par->p == -2 && par->w >= 0 && num == 0) ? write(1, &c, 1) : 0;
 		ret += (num < 0) ? write(1, "-", 1) : 0;
 		ret += print_prec(par, len);
-		if (num == 0 && par->p == 0 && par->width > 0)
-			ret += write(1, " ", 1);
+		ret += (num == 0 && par->p == 0 && par->w > 0) ? write(1, " ", 1) : 0;
 		if (!((par->p == 0 || par->p == -2) && num == 0))
 			ret += (num >= 0) ? write(1, nbr, len) : write(1, &nbr[1], len);
 	}
@@ -59,7 +60,7 @@ int		my_printf_unbr(va_list my_list, t_params *par)
 	{
 		ret += print_width(par, c, block(par->p, number));
 		ret += print_prec(par, nbr_len);
-		if (num == 0 && par->p == 0 && par->width > 0)
+		if (num == 0 && par->p == 0 && par->w > 0)
 			ret += write(1, " ", 1);
 		if (!((par->p == 0 || par->p == -2) && num == 0))
 			ret += write(1, number, ft_strlen(number));
@@ -87,7 +88,7 @@ int		my_printf_hexa(va_list my_list, t_params *par)
 	{
 		ret += print_width(par, c, block(par->p, number));
 		ret += print_prec(par, nbr_len);
-		if (num == 0 && (par->p == 0 || par->p == -2) && par->width > 0)
+		if (num == 0 && (par->p == 0 || par->p == -2) && par->w > 0)
 			ret += write(1, " ", 1);
 		if (!((par->p == 0 || par->p == -2) && num == 0))
 			ret += write(1, number, ft_strlen(number));
@@ -115,7 +116,7 @@ int		my_printf_majhexa(va_list my_list, t_params *par)
 	{
 		ret += print_width(par, c, block(par->p, number));
 		ret += print_prec(par, nbr_len);
-		if (num == 0 && (par->p == 0 || par->p == -2) && par->width > 0)
+		if (num == 0 && (par->p == 0 || par->p == -2) && par->w > 0)
 			ret += write(1, " ", 1);
 		if (!((par->p == 0 || par->p == -2) && num == 0))
 			ret += write(1, number, ft_strlen(number));

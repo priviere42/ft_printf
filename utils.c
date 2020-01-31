@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/17 10:38:55 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/31 10:19:27 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/31 15:13:41 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -49,7 +49,7 @@ t_params				*ft_init_par(t_params *par)
 {
 	par = malloc(sizeof(t_params) * 1);
 	par->p = -1;
-	par->width = -1;
+	par->w = -1;
 	par->flag = 'a';
 	par->type = 'a';
 	return (par);

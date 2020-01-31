@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/10 15:12:22 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/31 10:42:16 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/31 15:13:43 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,7 +23,7 @@
 typedef struct		s_params
 {
 	char		flag;
-	int			width;
+	int			w;
 	int			p;
 	char		type;
 }					t_params;

@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/31 10:41:52 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/31 15:21:49 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,7 +20,8 @@ int		ft_printf(const char *s, ...)
 	int			*ret;
 	int			real_ret;
 
-	ret = malloc(sizeof(int) * 2);
+	if (!(ret = malloc(sizeof(int) * 2)))
+		return (-1);
 	ret[0] = 0;
 	ret[1] = 0;
 	va_start(my_list, s);
@@ -36,6 +37,7 @@ int		ft_printf(const char *s, ...)
 	return (real_ret);
 }
 
+
 // #include <limits.h>
 // int main()
 // {
@@ -43,10 +45,10 @@ int		ft_printf(const char *s, ...)
 // 	int ret = 0;
 // 	int ret_printf = 0;
 
-//     ret =   	ft_printf("0*.*x", 5, -5, 8);
+//     ret =   	ft_printf("[%010.d]\n", 0);
 // 	printf("Retour de mon printf :%d\n", ret);
 
-//     ret_printf =  printf("0*.*x", 5, -5, 8);
+//     ret_printf =  printf("[%010.d]\n", 0);
 // 	printf("Retour du vrai printf :%d\n", ret_printf);
 
 

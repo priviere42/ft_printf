@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/08 18:29:19 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/31 10:21:10 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/31 11:17:23 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -29,7 +29,8 @@ char					*ft_itoa_base(long long value, long long base)
 	}
 	while (ft_pow(base, i) - 1 < value)
 		i++;
-	nbr = (char*)malloc(sizeof(nbr) * i);
+	if (!(nbr = (char*)malloc(sizeof(nbr) * i)))
+		return (NULL);
 	nbr[i + neg] = '\0';
 	while (i-- > 0)
 	{
@@ -57,7 +58,8 @@ char					*ft_itoa_base_maj(long long value, long long base)
 	}
 	while (ft_pow(base, i) - 1 < value)
 		i++;
-	nbr = (char*)malloc(sizeof(nbr) * i);
+	if (!(nbr = (char*)malloc(sizeof(nbr) * i)))
+		return (NULL);
 	nbr[i + neg] = '\0';
 	while (i-- > 0)
 	{
@@ -77,7 +79,8 @@ char					*ft_lltoa_base(long long value, int base)
 	i = 1;
 	while (ft_pow(base, i) - 1 < value)
 		i++;
-	nbr = (char*)malloc(sizeof(nbr) * i);
+	if (!(nbr = (char*)malloc(sizeof(nbr) * i)))
+		return (NULL);
 	nbr[i] = '\0';
 	while (i-- > 0)
 	{
@@ -95,7 +98,8 @@ char					*ft_lltoa_base_maj(long long value, int base)
 	i = 1;
 	while (ft_pow(base, i) - 1 < value)
 		i++;
-	nbr = (char*)malloc(sizeof(nbr) * i);
+	if (!(nbr = (char*)malloc(sizeof(nbr) * i)))
+		return (NULL);
 	nbr[i] = '\0';
 	while (i-- > 0)
 	{
@@ -113,7 +117,8 @@ char					*ft_ulltoa_base(unsigned long long value, int base)
 	i = 1;
 	while (ft_pow_ull(base, i) - 1 < value)
 		i++;
-	nbr = (char*)malloc(sizeof(nbr) * i);
+	if (!(nbr = (char*)malloc(sizeof(nbr) * i)))
+		return (NULL);
 	nbr[i] = '\0';
 	while (i-- > 0)
 	{

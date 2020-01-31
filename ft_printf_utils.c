@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/30 16:17:53 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/31 15:13:42 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/31 19:08:18 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -40,10 +40,10 @@ int		ft_check_wildcard(va_list my_list, const char *s, int i, t_params *par)
 
 int		ft_check_flags(va_list my_list, const char *s, int i, t_params *par)
 {
-	if (s[i] == '0' || s[i] == '-')
+	while (s[i] == '0' || s[i] == '-')
 	{
 		par->flag = (s[i] == '0') && (s[i + 1] == '-') ? '-' : s[i];
-		while (((s[i] == '0') && (s[i + 1] == '-'))
+		while (((s[i] == '0') && (s[i + 1] == '-' || s[i + 1] == '0'))
 		|| ((s[i] == '-') && ((s[i + 1] == '0') || (s[i + 1] == '-'))))
 			i++;
 		i++;
@@ -57,7 +57,7 @@ int		ft_check_flags(va_list my_list, const char *s, int i, t_params *par)
 	i = ft_check_wildcard(my_list, s, i, par);
 	if ((s[i] == '.' && s[i + 1]))
 		par->p = (s[i + 1] >= '0' && s[i + 1] <= '9') ? ft_atoi(&s[++i]) : -2;
-	if (par->p == -2)
+	if (par->p == -2 && s[i] == '.' && s[i + 1] != '*')
 		return (++i);
 	if ((par->flag != 'a') && s[i + 1] >= '0' && s[i + 1] <= '9'
 	&& par->p == -1)

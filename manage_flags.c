@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/24 17:34:44 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/31 15:23:18 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/31 18:28:06 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -68,7 +68,7 @@ int		manage_flags(t_params *par, int num, char *n, int block)
 	int		ret;
 	char	c;
 
-	c = (par->flag == '0' && par->p == -1) ? '0' : ' ';
+	c = (par->flag == '0' && par->p <= -1 && par->p != '~') ? '0' : ' ';
 	nbr_len = (num >= 0) ? ft_strlen(n) : ft_strlen(n) - 1;
 	ret = 0;
 	if (par->flag == '-')
@@ -96,7 +96,7 @@ int		manage_uflags(t_params *par, int num, char *n, int block)
 	int		ret;
 	char	c;
 
-	c = (par->flag == '0' && par->p == -1) ? '0' : ' ';
+	c = (par->flag == '0' && par->p <= -1 && par->p != '~') ? '0' : ' ';
 	nbr_len = ft_strlen(n);
 	ret = 0;
 	if (par->flag == '-')

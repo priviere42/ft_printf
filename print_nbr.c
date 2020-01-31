@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/17 10:37:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/31 15:18:42 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/31 19:05:12 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -29,7 +29,6 @@ int		my_printf_nbr(va_list my_list, t_params *par)
 	if (par->flag == 'a')
 	{
 		ret += print_width(par, c, block(par->p, nbr));
-	//	printf("par->p : %d, par->w : %d, num : %d\n", par->p, par->w, num);
 		ret += (par->p == -2 && par->w >= 0 && num == 0) ? write(1, &c, 1) : 0;
 		ret += (num < 0) ? write(1, "-", 1) : 0;
 		ret += print_prec(par, len);
@@ -59,6 +58,7 @@ int		my_printf_unbr(va_list my_list, t_params *par)
 	if (par->flag == 'a')
 	{
 		ret += print_width(par, c, block(par->p, number));
+		ret += (par->p == -2 && par->w >= 0 && num == 0) ? write(1, &c, 1) : 0;
 		ret += print_prec(par, nbr_len);
 		if (num == 0 && par->p == 0 && par->w > 0)
 			ret += write(1, " ", 1);
@@ -82,7 +82,7 @@ int		my_printf_hexa(va_list my_list, t_params *par)
 	num = va_arg(my_list, unsigned int);
 	number = ft_lltoa_base(num, 16);
 	nbr_len = ft_strlen(number);
-	c = (par->flag == '0' && par->p == -1) ? '0' : ' ';
+	c = (par->flag == '0' && par->p <= -1 && par->p != -2) ? '0' : ' ';
 	ret = 0;
 	if (par->flag == 'a')
 	{
@@ -110,7 +110,7 @@ int		my_printf_majhexa(va_list my_list, t_params *par)
 	num = va_arg(my_list, unsigned int);
 	number = ft_lltoa_base_maj(num, 16);
 	nbr_len = ft_strlen(number);
-	c = (par->flag == '0' && par->p == -1) ? '0' : ' ';
+	c = (par->flag == '0' && par->p <= -1 && par->p != -2) ? '0' : ' ';
 	ret = 0;
 	if (par->flag == 'a')
 	{

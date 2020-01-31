@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/17 10:36:00 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/30 16:46:06 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/31 10:50:32 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,7 +23,8 @@ int		ft_get_i(char *src, t_params *par)
 		i = ft_strlen_prec(src, par->p);
 	else
 		i = (nul == 6 && (par->p >= 0 || par->p == -2)) ?
-		ft_strlen(src) + ft_strlen_prec("(null)", par->p) : ft_strlen(src) + nul;
+		ft_strlen(src) + ft_strlen_prec("(null)", par->p)
+		: ft_strlen(src) + nul;
 	return (i);
 }
 

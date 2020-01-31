@@ -6,14 +6,14 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/17 10:38:55 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/30 13:52:33 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/31 10:19:27 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int			ft_strlen_prec(char *src, int precision)
+int						ft_strlen_prec(char *src, int precision)
 {
 	int i;
 
@@ -45,7 +45,7 @@ unsigned long long		ft_pow_ull(unsigned long long nb, unsigned long long p)
 		return (nb * ft_pow_ull(nb, p - 1));
 }
 
-t_params	*ft_init_par(t_params *par)
+t_params				*ft_init_par(t_params *par)
 {
 	par = malloc(sizeof(t_params) * 1);
 	par->p = -1;

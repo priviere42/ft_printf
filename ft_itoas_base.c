@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/08 18:29:19 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/29 17:11:23 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/31 10:21:10 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -118,24 +118,6 @@ char					*ft_ulltoa_base(unsigned long long value, int base)
 	while (i-- > 0)
 	{
 		nbr[i] = (value % base) + (value % base > 9 ? 'a' - 10 : '0');
-		value = value / base;
-	}
-	return (nbr);
-}
-
-char					*ft_ulltoa_base_maj(unsigned long long value, int base)
-{
-	int		i;
-	char	*nbr;
-
-	i = 1;
-	while (ft_pow_ull(base, i) - 1 < value)
-		i++;
-	nbr = (char*)malloc(sizeof(nbr) * i);
-	nbr[i] = '\0';
-	while (i-- > 0)
-	{
-		nbr[i] = (value % base) + (value % base > 9 ? 'A' - 10 : '0');
 		value = value / base;
 	}
 	return (nbr);

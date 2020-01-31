@@ -3,6 +3,7 @@ SRCS =  ft_itoas_base.c \
 		print_nbr.c		\
 		print_str.c		\
 		manage_flags.c	\
+		print_p.c		\
 		print_w_or_p.c	\
 		ft_printf_utils.c \
 		ft_printf.c

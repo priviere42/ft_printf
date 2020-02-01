@@ -1,0 +1,3 @@
+#define TEST140 "%% %-18.p abcdef%% %000*.u %--x%*.7X %-7.3sss~\n", p, 12, -2010102, -1323, 9, 654, "heyhey"
+	ret[0] = ft_printf("mine : ~"TEST140);
+	ret[1] = printf("real : ~"TEST140);

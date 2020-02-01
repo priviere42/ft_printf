@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/24 17:34:44 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/31 18:28:06 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/02/01 18:19:52 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -38,6 +38,7 @@ int		ft_udash(t_params *par, unsigned long long num, char *nbr, int block)
 	if (!((par->p == 0 || par->p == -2) && num == 0))
 		ret += write(1, nbr, ft_strlen(nbr));
 	ret += print_width(par, c, block);
+	ret += (par->p == -2 && par->w >= 0 && num == 0) ? write(1, &c, 1) : 0;
 	return (ret);
 }
 
@@ -68,7 +69,7 @@ int		manage_flags(t_params *par, int num, char *n, int block)
 	int		ret;
 	char	c;
 
-	c = (par->flag == '0' && par->p <= -1 && par->p != '~') ? '0' : ' ';
+	c = (par->flag == '0' && par->p <= -1 && par->p != -2) ? '0' : ' ';
 	nbr_len = (num >= 0) ? ft_strlen(n) : ft_strlen(n) - 1;
 	ret = 0;
 	if (par->flag == '-')
@@ -96,7 +97,7 @@ int		manage_uflags(t_params *par, int num, char *n, int block)
 	int		ret;
 	char	c;
 
-	c = (par->flag == '0' && par->p <= -1 && par->p != '~') ? '0' : ' ';
+	c = (par->flag == '0' && par->p <= -1 && par->p != -2) ? '0' : ' ';
 	nbr_len = ft_strlen(n);
 	ret = 0;
 	if (par->flag == '-')
@@ -104,6 +105,7 @@ int		manage_uflags(t_params *par, int num, char *n, int block)
 	else if (par->flag == '0')
 	{
 		ret += print_width(par, c, block);
+		ret += (par->p == -2 && par->w >= 0 && num == 0) ? write(1, &c, 1) : 0;
 		ret += print_prec(par, nbr_len);
 		if (num == 0 && par->p == 0 && par->w > 0)
 			ret += write(1, " ", 1);

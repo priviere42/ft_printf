@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/17 10:36:00 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/31 18:33:35 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/02/01 16:01:16 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -97,7 +97,6 @@ int		my_printf_perc(t_params *par)
 		i++;
 	}
 	ret += write(1, "%", 1);
-	//printf("par->flag = %c, par->w = %d, i = %d\n", par->flag, par->w, i);
 	while (par->flag == '-' && i++ < par->w)
 		ret += write(1, " ", 1);
 	return (ret);

@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/31 10:48:26 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/31 18:39:39 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/02/01 18:40:50 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -46,6 +46,13 @@ int		my_printf_p(va_list my_list, t_params *par)
 
 	ret = 0;
 	num = va_arg(my_list, unsigned long long);
+	if ((void *)num == NULL && par->p == -2 && par->flag == '-')
+	{
+		ret += write(1, "0x", 2);
+		while (ret < par->w)
+			ret += write(1, " ", 1);
+		return (ret);
+	}
 	if ((void *)num == NULL && par->p == -2)
 	{
 		while (ret < par->w - 2)

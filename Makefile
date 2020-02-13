@@ -27,6 +27,9 @@ lib:
 libcl:  
 			make -C libft clean
 
+libfcl:  
+			make -C libft fclean
+
 %.o: 		%.c ${INCLUDES}
 			${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
 
@@ -36,7 +39,7 @@ $(NAME):	lib ${OBJS}
 clean:		libcl
 			${RM} ${OBJS}
 
-fclean:		clean
+fclean:		libfcl clean
 			${RM} ${NAME}
 
 re:			fclean all

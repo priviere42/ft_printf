@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/12/18 09:41:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/02/01 18:41:34 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/02/13 15:41:27 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -45,10 +45,10 @@ int		ft_printf(const char *s, ...)
 // 	int ret = 0;
 // 	int ret_printf = 0;
 
-//     ret =   	ft_printf("F [%-*.p] \n", 4, NULL);
+//     ret =   	ft_printf("[%25%]\n");
 // 	printf("Retour de mon printf :%d\n", ret);
 
-//     ret_printf =  printf("V [%-*.p] \n", 4, NULL);
+//     ret_printf =  printf("[%25%]\n");
 // 	printf("Retour du vrai printf :%d\n", ret_printf);
 
 

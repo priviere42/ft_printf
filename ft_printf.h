@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/10 15:12:22 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/31 18:04:13 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/02/13 13:17:13 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdarg.h>
+#include <limits.h>
 
 typedef struct		s_params
 {

@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/30 16:17:53 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/02/13 15:40:57 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/02/13 15:58:26 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -86,7 +86,6 @@ int		treat_flag(const char *src, int i, va_list my_list, t_params *par)
 		ret += my_printf_hexa(my_list, par);
 	if (src[i] == 'p')
 		ret += my_printf_p(my_list, par);
-	// printf("src[i] : '%c'\n", src[i]);
 	if (src[i] == '%')
 		ret += my_printf_perc(par);
 	return (ret);
@@ -109,48 +108,18 @@ int		*my_fct(t_params *par, va_list my_list, const char *s, int *r)
 {
 	if (s[r[0]] != 0 && s[r[0]] == '%')
 	{
-	//	dprintf(1, "%c\n", s[r[0] + 1]);
 		if (s[r[0] + 1] && s[r[0] + 1] == '%')
 		{
-			write (1, "%", 1);
+			write(1, "%", 1);
 			r[1]++;
 			r[0]++;
 			return (r);
-		//	printf("%d\n", par->p);
 		}
 		r[0] = ft_check_flags(my_list, s, r[0] + 1, par);
 		r[1] += treat_flag(s, r[0], my_list, par);
-		// if (par->type != '%')
 		r[1] += check_and_treat(s, r[0], par);
 	}
-	else /* if ((s[r[0]] != 0 && s[r[0]] != '%') || par->type == '%'  ) */
+	else
 		r[1] += write(1, &s[r[0]], 1);
-
-/*	if (s[r[0]] != 0 && r[0] != 0 && s[r[0] - 1] == '%')
-	{
-		if (s[r[0]] == '%')
-		{
-			par->type = '%';
-			r[1] += my_printf_perc(par);
-			return (r);
-			if (s[r[0] + 1] && s[r[0] + 1] == '%')
-				r[0]++;
-		//	printf("%d\n", par->p);
-			if ((s[r[0] + 1] == 's' || s[r[0] + 1] == 'c' || s[r[0] + 1] == 'd'
-			|| s[r[0] + 1] == 'i' || s[r[0] + 1] == 'u' || s[r[0] + 1] == 'p'
-			|| s[r[0] + 1] == 'x' || s[r[0] + 1] == 'X' || s[r[0] + 1] == '*')
-			)
-			{
-				r[1] += write(1, &s[r[0] + 1], 1); // what the fuck ??
-				r[0]++;
-			}
-		}
-		r[0] = ft_check_flags(my_list, s, r[0], par);
-		r[1] += treat_flag(s, r[0], my_list, par);
-		if (par->type != '%')
-			r[1] += check_and_treat(s, r[0], par);
-	}
-	else if ((s[r[0]] != 0 && s[r[0]] != '%') || par->type == '%')
-		r[1] += write(1, &s[r[0]], 1);*/
 	return (r);
 }

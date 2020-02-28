@@ -6,7 +6,7 @@
 /*   By: priviere <priviere@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/17 10:37:57 by priviere     #+#   ##    ##    #+#       */
-/*   Updated: 2020/02/01 18:00:47 by priviere    ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/02/13 16:10:10 by priviere    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -26,7 +26,6 @@ int		my_printf_nbr(va_list my_list, t_params *par)
 	c = (par->flag == '0' && par->p == -1) ? '0' : ' ';
 	len = (num >= 0) ? ft_strlen(nbr) : ft_strlen(nbr) - 1;
 	ret = 0;
-	//printf("width = %d, prec = %d, flag = %c\n", par->w, par->p, par->flag);
 	if (par->flag == 'a')
 	{
 		ret += print_width(par, c, block(par->p, nbr));
